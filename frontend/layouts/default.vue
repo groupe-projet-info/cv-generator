@@ -8,6 +8,7 @@
       <v-spacer />
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn text :ripple="false" to="/login" color="primary">Se connecter</v-btn>
+        <v-divider vertical />
         <v-btn text :ripple="false" to="/register">S'inscrire</v-btn>
       </v-toolbar-items>
     </v-app-bar>
