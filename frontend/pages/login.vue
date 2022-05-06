@@ -47,8 +47,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    login(e: Event) {
-      e.preventDefault();
+    login() {
       this.loading = true
       setTimeout(() => {
         this.loading = false
