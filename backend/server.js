@@ -24,7 +24,7 @@ app.listen(PORT, () => {
 
 
 
-//set MongoDB
+//set the database and connect to it 
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
