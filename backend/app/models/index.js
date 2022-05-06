@@ -4,5 +4,13 @@ mongoose.Promise = global.Promise;
 const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
-db.tutorials = require("./tutorial.model.js")(mongoose);
+
+
+// A MODIFIER
+
+db.random_collection = require("./random_collection.model.js")(mongoose);
+
+
+
+
 module.exports = db;
