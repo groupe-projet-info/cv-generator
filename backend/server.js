@@ -4,6 +4,8 @@ const cors = require("cors");
 const app = express();
 const db = require("./app/models");
 
+require('dotenv').config()
+
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -26,7 +28,7 @@ app.listen(PORT, () => {
 
 //set the database and connect to it 
 db.mongoose
-  .connect(db.url, {
+  .connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
