@@ -110,3 +110,30 @@ exports.deleteAll = (req, res) => {
 //A MODIFIER
 
 
+exports.update = (req, res) => {
+    if (!req.body) {
+      return res.status(400).send({
+        message: "Data to update can not be empty!"
+      })
+    }
+    const id = req.params.id;
+
+    // update the CV 
+   //--------------------- Write something here
+   new_cv={}
+    
+    // save the updated CV
+    CV.findByIdAndUpdate(id, new_cv, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update CV with id=${id}. Maybe CV was not found!`
+        });
+      } else res.send({ message: "CV was updated successfully." });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating CV with id=" + id
+      });
+    });
+};
