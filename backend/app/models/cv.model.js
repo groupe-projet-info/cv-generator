@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema
 
 var CV_Schema = new Schema({
-    user: User,
+    user: [{ type: Schema.Types.ObjectId, ref:' User'}],
     jobTitle: String,
     education: [{ type: Schema.Types.ObjectId, ref:'Education'}],
     skills: [{ type: Schema.Types.ObjectId, ref:'Skill'}],
