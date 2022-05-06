@@ -1,4 +1,4 @@
-Thses commands need to be run from inside of the "backend" folder.
+These commands need to be run from inside of the "backend" folder.
 
 # To get the project setup:
 ```
