@@ -33,7 +33,7 @@ import 'vue-async-computed'
 
 export default Vue.extend({
   head: {
-    title: 'Connexion'
+    title: 'Inscription'
   },
   data() {
     return {
