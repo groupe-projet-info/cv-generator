@@ -1,6 +1,6 @@
 module.exports = mongoose => {
     const Tutorial = mongoose.model(
-      "tutorial",
+      "random_collection",
       mongoose.Schema(
         {
           title: String,
