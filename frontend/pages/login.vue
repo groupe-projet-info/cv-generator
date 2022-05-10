@@ -64,6 +64,9 @@ export default Vue.extend({
         this.loading = true
         this.success = await this.$api.auth.login(this.username, this.password)
         this.loading = false
+        if (this.success) {
+          this.$router.push('/')
+        }
       }
     }
   }
