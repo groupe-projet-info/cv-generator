@@ -9,7 +9,7 @@ module.exports = mongoose => {
       skills: [{ type: Schema.Types.ObjectId, ref:'Skill'}],
       previousJobs: [{ type: Schema.Types.ObjectId, ref:'Job'}],
       hobbies: [String],
-      languages: [{ type: Schema.Types.ObjectId, ref:'Languages'}],
+      languages: [{ type: Schema.Types.ObjectId, ref:'Language'}],
       extracurricularCertifications: [{ type: Schema.Types.ObjectId, ref:'Certification'}],
       preset: String,
       creationDate: Date,
@@ -22,6 +22,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const CV = mongoose.model("cv", schema);
+  const CV = mongoose.model("CV", schema);
   return CV;
 };
