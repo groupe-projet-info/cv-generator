@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     const user = new User({
       userName: req.body.userName,
       password: req.body.password
-    }); // TODO: `MongoDB a des champs createdAt et UpdatedAt automatiquement ajoutés... Look into that
+    }); // TODO: MongoDB a des champs createdAt et UpdatedAt automatiquement ajoutés... Look into that
 
     // Save User in the database
     user

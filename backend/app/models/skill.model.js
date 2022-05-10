@@ -1,3 +1,6 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema
+
 module.exports = mongoose => {
     var schema = mongoose.Schema({
       cv: { type: Schema.Types.ObjectId, ref:'CV'},
@@ -11,7 +14,7 @@ module.exports = mongoose => {
       return object;
     });
   
-    const Skill = mongoose.model("skill", schema);
+    const Skill = mongoose.model("Skill", schema);
     return Skill;
   };
   

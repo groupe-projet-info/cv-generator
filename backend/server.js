@@ -47,6 +47,7 @@ require("./app/routes/job.routes")(app);
 require("./app/routes/language.routes")(app);
 require("./app/routes/skill.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/certification.routes")(app);
 
 
 

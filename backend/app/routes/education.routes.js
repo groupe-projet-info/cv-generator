@@ -1,9 +1,10 @@
 module.exports = app => {
-    const education = require("../controllers/education.controller.js");
+    const education = require("..//controllers/education.controller.js");
     var educ_router = require("express").Router();
-    educ_router.post("/", education.create);
-    educ_router.get("/", education.findAll);
-    educ_router.delete("/:id", education.delete);
-    educ_router.delete("/", education.deleteAll);
-    app.use('/api/education', educ_router);
+
+    educ_router.get("/:cv_id/education", education.find_all_educations);
+    educ_router.post("/:cv_id/education", education.add_education);
+    //educ_router.delete("/:cv_id/education", education.remove_all_educations);*/
+
+    app.use("/api/cv", educ_router);
   };
