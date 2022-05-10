@@ -6,8 +6,9 @@
           <v-container fluid>
             <h1 class="text-h4 font-weight-thin mb-4">CV Generator</h1>
             <h4 class="subheading mb-4">Construisez votre CV simplement !</h4>
-            <v-btn elevate="0" :ripple="false" to="/login" color="primary">Se connecter</v-btn>
-            <v-btn text :ripple="false" to="/register">S'inscrire</v-btn>
+            <v-btn elevate="0" :ripple="false" to="/login" color="primary" v-if="!loggedIn">Se connecter</v-btn>
+            <v-btn text :ripple="false" to="/register" v-if="!loggedIn">S'inscrire</v-btn>
+            <v-btn elevate="0" :ripple="false" to="/dashboard" color="primary" v-else>Accéder à mes CVs</v-btn>
           </v-container>
         </v-col>
       </v-row>
@@ -38,5 +39,14 @@ export default Vue.extend({
   head: {
     title: "Accueil",
   },
+  data() {
+    return {
+      loggedIn: false
+    }
+  },
+  async fetch() {
+    this.loggedIn = await this.$api.auth.test()
+  },
+  fetchOnServer: false
 });
 </script>
