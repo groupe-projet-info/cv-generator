@@ -3,8 +3,9 @@
     <!-- Must have the app property -->
     <v-app-bar app elevate-on-scroll rounded>
       <v-toolbar-title>
-        <v-btn plain to="/">CV Generator</v-btn>
+        <v-btn plain :ripple="false" to="/">CV Generator</v-btn>
       </v-toolbar-title>
+      <v-btn plain :ripple="false" to="/dashboard" v-if="loggedIn">Mes CVs</v-btn>
       <v-spacer />
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn text :ripple="false" to="/login" color="primary" v-if="!loggedIn">Se connecter</v-btn>
@@ -15,7 +16,7 @@
             <v-btn text :ripple="false" v-bind="attrs" v-on="on">{{ $store.state.user.username }}</v-btn>
           </template>
           <v-list>
-            <v-list-item to="/dashboard/config">
+            <v-list-item to="/config">
               <v-list-item-title>Paramètres</v-list-item-title>
             </v-list-item>
             <v-list-item to="/logout">
