@@ -14,6 +14,4 @@ db.languages = require("./language.model.js")(mongoose);
 db.skills = require("./skill.model.js")(mongoose);
 db.users = require("./user.model.js")(mongoose);
 
-db.tutorials = require("./tutorial.model.js")(mongoose);
-
 module.exports = db;

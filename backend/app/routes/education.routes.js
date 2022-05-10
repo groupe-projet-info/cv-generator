@@ -7,5 +7,5 @@ module.exports = app => {
     educ_router.put("/:id", education.update);
     educ_router.delete("/:id", education.delete);
     educ_router.delete("/", education.deleteAll);
-    app.use('/api/cv/id/education', educ_router);
+    app.use('/api/education', educ_router);
   };
