@@ -1,7 +1,10 @@
 const db = require("../models");
 const CV = db.cvs;
-
-
+const LANG = db.languages;
+const CERTIF = db.certifications;
+const EDUC = db.educations;
+const SKILLS = db.skills;
+const JOBS = db.jobs
 
 // Create and Save a new cv
 
@@ -66,6 +69,110 @@ exports.update = (req, res) => {
   
 };
 
+// Update education
+exports.update_educ = (req, res) => {
+    const id = req.params.id;
+    EDUC.findByIdAndUpdate(id)
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: "Cannot update education with id"+ id
+          });
+        } else {
+          res.send({
+            message: "Education was updated successfully!"
+          });
+        }
+      })  
+};
+// Update certifications
+exports.update_certif = (req, res) => {
+    const id = req.params.id;
+    CERTIF.findByIdAndUpdate(id)
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: "Cannot update certifications with id"+ id
+          });
+        } else {
+          res.send({
+            message: "Certifications was updated successfully!"
+          });
+        }
+      })  
+};
+
+// Update languages
+exports.update_lang = (req, res) => {
+    const id = req.params.id;
+    LANG.findByIdAndUpdate(id)
+      .then(data => {
+        if (!data) {
+          res.status(404).send({
+            message: "Cannot update languages with id"+ id
+          });
+        } else {
+          res.send({
+            message: "Laguages was updated successfully!"
+          });
+        }
+      })  
+};
+
+// Update Skills
+exports.update_skills = (req, res) => {
+  const id = req.params.id;
+  SKILLS.findByIdAndUpdate(id)
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: "Cannot update skills with id"+ id
+        });
+      } else {
+        res.send({
+          message: "Skills was updated successfully!"
+        });
+      }
+    })  
+};
+
+// Update jobs
+exports.update_skills = (req, res) => {
+  const id = req.params.id;
+  JOBS.findByIdAndUpdate(id)
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: "Cannot update skills with id"+ id
+        });
+      } else {
+        res.send({
+          message: "Jobs was updated successfully!"
+        });
+      }
+    })  
+};
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  EDUC.findByIdAndRemove(id)
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: "Cannot delete education with id"+ id
+        });
+      } else {
+        res.send({
+          message: "Education was deleted successfully!"
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete education with id=" + id
+      });
+    });
+};
 // Delete a cv with the specified id in the request
 
 exports.delete = (req, res) => {
@@ -88,6 +195,7 @@ exports.delete = (req, res) => {
         });
       });
   };
+
 
 // Delete all CVs from the database.
 exports.deleteAll = (req, res) => {
@@ -113,7 +221,7 @@ exports.deleteAll = (req, res) => {
 exports.update = (req, res) => {
     if (!req.body) {
       return res.status(400).send({
-        message: "Data to update can not be empty!"
+        message: "Data to update cannot be empty!"
       })
     }
     const id = req.params.id;
