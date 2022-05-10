@@ -1,8 +1,15 @@
 const db = require("../models");
 const User = db.users;
 
-// Create and Save a new User
+/* INVENTORY OF FUNCTIONS
+create ---> Create and Save 
+findAll ---> retrieve all 
+delete ---> Delete one specific (id)
+deleteAll ---> Delete All
 
+*/
+
+// Create and Save a new User
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.userName) {
@@ -29,7 +36,6 @@ exports.create = (req, res) => {
       });
   };
 
-
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
     User.find({})
@@ -44,18 +50,7 @@ exports.findAll = (req, res) => {
       });
   };
   
-
-// Find a single User with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update an User by the id in the request
-exports.update = (req, res) => {
-  
-};
-
 // Delete a User with the specified id in the request
-
 exports.delete = (req, res) => {
     const id = req.params.id;
     User.findByIdAndRemove(id)
@@ -92,9 +87,3 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
-
-
-
-
-
-

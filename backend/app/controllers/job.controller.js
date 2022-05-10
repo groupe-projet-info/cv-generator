@@ -1,8 +1,15 @@
 const db = require("../models");
 const Job = db.jobs;
 
-// Create and Save a new job
+/* INVENTORY OF FUNCTIONS
+create ---> Create and Save 
+findAll ---> retrieve all 
+delete ---> Delete one specific (id)
+deleteAll ---> Delete All
 
+*/
+
+// Create and Save a new job
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.jobTitle) {
@@ -36,7 +43,6 @@ exports.create = (req, res) => {
       });
   };
 
-
 // Retrieve all Jobs from the database.
 exports.findAll = (req, res) => {
     Job.find({})
@@ -50,19 +56,8 @@ exports.findAll = (req, res) => {
         });
       });
   };
-  
-
-// Find a single Job with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update a Job by the id in the request
-exports.update = (req, res) => {
-  
-};
 
 // Delete a Job with the specified id in the request
-
 exports.delete = (req, res) => {
     const id = req.params.id;
     Job.findByIdAndRemove(id)
@@ -99,6 +94,4 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
-
-
 

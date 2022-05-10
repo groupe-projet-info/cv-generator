@@ -1,8 +1,15 @@
 const db = require("../models");
 const Language = db.languages;
 
-// Create and Save a new Language
+/* INVENTORY OF FUNCTIONS
+create ---> Create and Save 
+findAll ---> retrieve all 
+delete ---> Delete one specific (id)
+deleteAll ---> Delete All
 
+*/
+
+// Create and Save a new Language
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.languageName) {
@@ -29,7 +36,6 @@ exports.create = (req, res) => {
       });
   };
 
-
 // Retrieve all Languages from the database.
 exports.findAll = (req, res) => {
     Language.find({})
@@ -44,18 +50,7 @@ exports.findAll = (req, res) => {
       });
   };
   
-
-// Find a single Language with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update a Language by the id in the request
-exports.update = (req, res) => {
-  
-};
-
 // Delete a Language with the specified id in the request
-
 exports.delete = (req, res) => {
     const id = req.params.id;
     Language.findByIdAndRemove(id)
@@ -92,6 +87,4 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
-
-
 

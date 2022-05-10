@@ -1,8 +1,15 @@
 const db = require("../models");
 const Certification = db.certifications;
 
-// Create and Save a new Certification
+/* INVENTORY OF FUNCTIONS
+create ---> Create and Save 
+findAll ---> retrieve all 
+delete ---> Delete one specific (id)
+deleteAll ---> Delete All
 
+*/
+
+// Create and Save a new Certification
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.authority) {
@@ -30,7 +37,6 @@ exports.create = (req, res) => {
       });
   };
 
-
 // Retrieve all Certifications from the database.
 exports.findAll = (req, res) => {
     Certification.find({})
@@ -45,18 +51,7 @@ exports.findAll = (req, res) => {
       });
   };
   
-
-// Find a single Certification with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update a Certification by the id in the request
-exports.update = (req, res) => {
-  
-};
-
 // Delete a Certification with the specified id in the request
-
 exports.delete = (req, res) => {
     const id = req.params.id;
     Certification.findByIdAndRemove(id)

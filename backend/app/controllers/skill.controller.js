@@ -1,8 +1,15 @@
 const db = require("../models");
 const Skill = db.skills;
 
-// Create and Save a new skill
+/* INVENTORY OF FUNCTIONS
+create ---> Create and Save 
+findAll ---> retrieve all 
+delete ---> Delete one specific (id)
+deleteAll ---> Delete All
 
+*/
+
+// Create and Save a new skill
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.skillTitle) {
@@ -29,7 +36,6 @@ exports.create = (req, res) => {
       });
   };
 
-
 // Retrieve all skills from the database.
 exports.findAll = (req, res) => {
     Skill.find({})
@@ -43,19 +49,8 @@ exports.findAll = (req, res) => {
         });
       });
   };
-  
-
-// Find a single skill with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update a skill by the id in the request
-exports.update = (req, res) => {
-  
-};
 
 // Delete a skill with the specified id in the request
-
 exports.delete = (req, res) => {
     const id = req.params.id;
     Skill.findByIdAndRemove(id)
@@ -92,9 +87,3 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
-
-
-
-
-
-
