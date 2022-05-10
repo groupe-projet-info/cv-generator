@@ -25,7 +25,6 @@ app.listen(PORT, () => {
 });
 
 
-
 //set the database and connect to it 
 db.mongoose
   .connect(process.env.DB_URL, {
@@ -40,7 +39,6 @@ db.mongoose
     process.exit();
   });
 
-require("./app/routes/tutorial.routes")(app);
 require("./app/routes/cv.routes")(app);
 require("./app/routes/education.routes")(app);
 require("./app/routes/job.routes")(app);
@@ -48,6 +46,4 @@ require("./app/routes/language.routes")(app);
 require("./app/routes/skill.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/certification.routes")(app);
-
-
 

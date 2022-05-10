@@ -54,3 +54,5 @@ GET + ./api/cv/{id} : Récupérer  CV (a discuter si on le recupere juste avec l
 
 POST + ./api/cv/{id}/hobby : Ajouter liste entière hobbies au  CV / Ecraser l'ancienne
 POST + ./api/cv/{id}/jobtitle : Ajouter nouveau titre au  CV / Ecraser l'ancien
+
+DELETE + ./api/cv/{id}/: Supprimer un CV en particulier
