@@ -21,13 +21,17 @@ node server.js
 
 # API Documentation (examples)
  1- Create a document 
+ 
  ![alt text](./img/img1.png)
 
  Result:
+ 
  ![alt text](./img/result1.png)
 
   2- Delete a document 
+ 
  ![alt text](./img/img2.png)
 
  Result:
+
  ![alt text](./img/result2.png)
