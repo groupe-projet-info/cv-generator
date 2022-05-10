@@ -13,4 +13,5 @@ module.exports = app => {
     certif_router.delete("/:cv_id/certification", certif.remove_all_certifications);
     
     app.use("/api/cv", certif_router);
+
   };

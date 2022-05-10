@@ -6,7 +6,6 @@ const Job = db.jobs;
 const Language = db.languages;
 const Skill = db.skills;
 
-
 // Create and Save a new cv
 exports.create = (req, res) => {
     // Validate request
@@ -113,6 +112,7 @@ exports.set_hobbies = (req, res) => {
 };
 
 
+
 //DELETE CVS
 
 exports.remove_one_cv = (req, res) => {
@@ -120,6 +120,7 @@ exports.remove_one_cv = (req, res) => {
   const cv_id = req.params.cv_id;
 
   Certification.deleteMany({ cv: cv_id })
+
     .then(data => {
       console.log(`${data.deletedCount} Certifications were deleted successfully!`);
     })
