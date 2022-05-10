@@ -3,10 +3,14 @@ module.exports = app => {
     var cv_router = require("express").Router();
 
     cv_router.post("/", cvs.create);
+
+    //Getters
     cv_router.get("/:cv_id", cvs.find_one_cv);
 
-    cv_router.get("/:cv_id/hobby", cvs.find_all_hobbies);
-    cv_router.post("/:cv_id/hobby", cvs.add_hobbies);
+    //Modifications
+    cv_router.post("/:cv_id/hobby", cvs.set_hobbies);
+    cv_router.post("/:cv_id/jobtitle", cvs.set_jobtitle);
+    
 
     app.use("/api/cv",cv_router);
   };

@@ -60,3 +60,79 @@ exports.find_all_jobs = (req, res) => {
     })
 
 };
+
+
+
+exports.remove_one_job = (req, res) => {
+  var cv_id = req.params.cv_id;
+  var job_id= req.params.job_id;
+
+  CV.findById(cv_id)
+  .then(cv => {
+    if (!cv)
+      res.status(404).send({ message: "Not found CV with id " + cv_id });
+    else { 
+
+      Job.findByIdAndRemove(job_id, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete job with id=${job_id}. Maybe it was not found!`
+        });
+      } else {
+        res.send({
+          message: "Job was deleted successfully!"
+        });
+        cv.previousJobs.pull(job_id);
+        cv.save(cv); 
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Job with id=" + job_id
+      });
+    });
+      
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+
+};
+
+
+exports.remove_all_jobs = (req, res) => {
+  var cv_id = req.params.cv_id;
+
+  Job.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} jobs were deleted successfully!`);
+      CV.findById(cv_id)
+      .then(cv => {
+        if (!cv)
+        res.status(404).send({ message: "Not found CV with id " + cv_id });
+        else { 
+          cv.previousJobs = [];
+          cv.save(data); 
+          res.send({ message: "CV was updated successfully." });
+        }
+      })
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+})
+.catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while removing all jobs."
+    });
+  });
+
+
+};
+

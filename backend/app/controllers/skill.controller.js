@@ -55,54 +55,74 @@ exports.find_all_skills = (req, res) => {
 };
 
 
-
-
-
 exports.remove_one_skill = (req, res) => {
-  const cv_id = req.params.cv_id;
-  const id = new ObjectId(req.params.id);
+  var cv_id = req.params.cv_id;
+  var skill_id= req.params.skill_id;
 
   CV.findById(cv_id)
-    .then( (cv) => {
-      if (!cv)
-        res.status(404).send({ message: "Not found CV with id " + cv_id });
-      else {
-        //cv.skills.pullAll(id);
-        //cv.save(data);
-        res.send(cv);
-      } 
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .send({ message: "Error retrieving CV with id=" + cv_id });
-    });
-
-
- /* CV.findByIdAndUpdate(cv_id, { $pullAll: { skills: id } } , { useFindAndModify: false })
-
-  CV.update({_id: cv_id}, { $pullAll: { skills: id } },{multi:true})
+  .then(cv => {
+    if (!cv)
+      res.status(404).send({ message: "Not found CV with id " + cv_id });
+    else { 
+      Skill.findByIdAndRemove(skill_id, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot update CV with id=${cv_id}. Maybe CV was not found!`
+          message: `Cannot delete skill with id=${skill_id}. Maybe it was not found!`
         });
       } else {
-        res.send({ message: "CV was updated successfully." });
+        res.send({
+          message: "Skill was deleted successfully!"
+        });
+        cv.skills.pull(skill_id);
+        cv.save(cv); 
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating CV with id=" + cv_id
+        message: "Could not delete skill with id=" + skill_id
       });
     });
-*/
-  
-
+      
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
 
 };
 
 
+exports.remove_all_skills = (req, res) => {
+  var cv_id = req.params.cv_id;
 
+  Skill.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} skills were deleted successfully!`);
+      CV.findById(cv_id)
+      .then(cv => {
+        if (!cv)
+        res.status(404).send({ message: "Not found CV with id " + cv_id });
+        else { 
+          cv.skills = [];
+          cv.save(data); 
+          res.send({ message: "CV was updated successfully." });
+        }
+      })
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+})
+.catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while removing all skills."
+    });
+  });
 
+};
 

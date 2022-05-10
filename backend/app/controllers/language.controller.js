@@ -52,3 +52,75 @@ exports.find_all_languages = (req, res) => {
     })
 
 };
+
+
+exports.remove_one_language = (req, res) => {
+  var cv_id = req.params.cv_id;
+  var lang_id= req.params.lang_id;
+
+  CV.findById(cv_id)
+  .then(cv => {
+    if (!cv)
+      res.status(404).send({ message: "Not found CV with id " + cv_id });
+    else { 
+      Language.findByIdAndRemove(lang_id, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete language with id=${lang_id}. Maybe it was not found!`
+        });
+      } else {
+        res.send({
+          message: "Language was deleted successfully!"
+        });
+        cv.languages.pull(lang_id);
+        cv.save(cv); 
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete language with id=" + lang_id
+      });
+    });
+      
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+
+};
+
+
+exports.remove_all_languages = (req, res) => {
+  var cv_id = req.params.cv_id;
+
+  Language.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} languages were deleted successfully!`);
+      CV.findById(cv_id)
+      .then(cv => {
+        if (!cv)
+        res.status(404).send({ message: "Not found CV with id " + cv_id });
+        else { 
+          cv.languages = [];
+          cv.save(data); 
+          res.send({ message: "CV was updated successfully." });
+        }
+      })
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+})
+.catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while removing all languages."
+    });
+  });
+
+};

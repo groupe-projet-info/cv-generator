@@ -57,3 +57,78 @@ exports.find_all_educations = (req, res) => {
     })
 
 };
+
+
+exports.remove_one_education = (req, res) => {
+  var cv_id = req.params.cv_id;
+  var educ_id= req.params.educ_id;
+
+  CV.findById(cv_id)
+  .then(cv => {
+    if (!cv)
+      res.status(404).send({ message: "Not found CV with id " + cv_id });
+    else { 
+
+      Education.findByIdAndRemove(educ_id, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete Education with id=${educ_id}. Maybe it was not found!`
+        });
+      } else {
+        res.send({
+          message: "Education was deleted successfully!"
+        });
+        cv.education.pull(educ_id);
+        cv.save(cv); 
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Education with id=" + educ_id
+      });
+    });
+      
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+
+};
+
+
+exports.remove_all_educations = (req, res) => {
+  var cv_id = req.params.cv_id;
+
+  Education.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} educations were deleted successfully!`);
+      CV.findById(cv_id)
+      .then(cv => {
+        if (!cv)
+        res.status(404).send({ message: "Not found CV with id " + cv_id });
+        else { 
+          cv.education = [];
+          cv.save(data); 
+          res.send({ message: "CV was updated successfully." });
+        }
+      })
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+})
+.catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while removing all educationss."
+    });
+  });
+
+
+};
+
