@@ -12,9 +12,7 @@ exports.create = (req, res) => {
     // Create an User
     const user = new User({
       userName: req.body.userName,
-      password: req.body.password,
-      creationDate: Date.now().toISOString(),
-      lastActiveDate: creationDate
+      password: req.body.password
     }); // TODO: `MongoDB a des champs createdAt et UpdatedAt automatiquement ajoutés... Look into that
 
     // Save User in the database
