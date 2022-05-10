@@ -20,7 +20,7 @@ exports.create_skill = (req, res) => {
     const cv_id = req.params.id;
 
     // Create a skill
-    const new_skill = new Skill({
+    const skill = new Skill({
       cv: cv_id,
       skillTitle: req.body.skillTitle,
       skillValue: req.body.skillValue,
@@ -30,7 +30,7 @@ exports.create_skill = (req, res) => {
     skill
       .save(skill)
       .then(data => {
-        res.send(data);
+        return data.id;
       })
       .catch(err => {
         res.status(500).send({
@@ -38,15 +38,16 @@ exports.create_skill = (req, res) => {
             err.message || "Some error occurred while creating the skill."
         });
       });
-
-    return new_skill.id
   };
 
-// Retrieve all skills from the database.
-exports.findAll = (req, res) => {
-    Skill.find({})
+
+// Retrieve all skills in one specified CV from the database.
+exports.find_all_skills_in_cv = (req, res) => {
+  const cv_id = req.params.id;
+
+    Skill.find({ cv : cv_id })
       .then(data => {
-        res.send(data);
+        return data;
       })
       .catch(err => {
         res.status(500).send({
@@ -78,9 +79,10 @@ exports.delete = (req, res) => {
       });
   };
 
-// Delete all skills from the database.
-exports.deleteAll = (req, res) => {
-    Skill.deleteMany({})
+// Delete all skills in one CV from the database.
+exports.delete_all_skills_in_cv = (req, res) => {
+  const cv_id = req.params.id;
+    Skill.deleteMany({ cv : cv_id })
     .then(data => {
       res.send({
         message: `${data.deletedCount} skills were deleted successfully!`
@@ -91,5 +93,22 @@ exports.deleteAll = (req, res) => {
         message:
           err.message || "Some error occurred while removing all skills."
       });
+    });
+};
+
+// Find a single Skill with an id
+exports.findOne = (req, res) => {
+  const id = req.params.id;
+
+  Skill.findById(id)
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found skill with id " + id });
+      else res.send(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving skill with id=" + id });
     });
 };

@@ -113,14 +113,14 @@ exports.add_skill = (req, res) => {
 
     // update the CV 
     const cv_id = req.params.id;
-    new_skill= helpers.create_skill(req,res)
+    new_skill_id= helpers.create_skill(req,res)
 
 
     CV.findById(cv_id)
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found CV with id " + id });
-      else { bnew_cv = data.skills.push(new_skill) }
+      else { new_cv = data.skills.push(new_skill_id) }
   })
     .catch(err => {
       res
