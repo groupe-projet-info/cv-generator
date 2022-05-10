@@ -1,7 +1,8 @@
 module.exports = mongoose => {
     var schema = mongoose.Schema({
-        languageName: String,
-        level: String
+      cv: { type: Schema.Types.ObjectId, ref:'CV'},
+      languageName: String,
+      level: String
 });
   
     schema.method("toJSON", function() {

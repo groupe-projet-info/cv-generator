@@ -1,8 +1,9 @@
 module.exports = mongoose => {
     var schema = mongoose.Schema({
-        authority: String,
-        certificationName: String,
-        certificationPassYear: Number
+      cv: { type: Schema.Types.ObjectId, ref:'CV'},
+      authority: String,
+      certificationName: String,
+      certificationPassYear: Number
 });
   
     schema.method("toJSON", function() {

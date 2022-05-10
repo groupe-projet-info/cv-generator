@@ -3,7 +3,7 @@ var Schema = mongoose.Schema
 
 module.exports = mongoose => {
   var schema = mongoose.Schema({
-      user: [{ type: Schema.Types.ObjectId, ref:' User'}],
+      user: { type: Schema.Types.ObjectId, ref:' User'},
       jobTitle: String,
       education: [{ type: Schema.Types.ObjectId, ref:'Education'}],
       skills: [{ type: Schema.Types.ObjectId, ref:'Skill'}],
