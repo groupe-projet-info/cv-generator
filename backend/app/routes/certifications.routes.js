@@ -1,5 +1,5 @@
 module.exports = app => {
-    const certif = require("../controllers/certification.controller.js");
+    const certif = require("../controllers/helpers/certification.controller.js");
     var certif_router = require("express").Router();
     certif_router.post("/", certif.create);
     certif_router.get("/", certif.findAll);

@@ -10,14 +10,18 @@ deleteAll ---> Delete All
 */
 
 // Create and Save a new skill
-exports.create = (req, res) => {
+exports.create_skill = (req, res) => {
     // Validate request
     if (!req.body.skillTitle) {
       res.status(400).send({ message: "Content can not be empty!" });
       return;
     }
+
+    const cv_id = req.params.id;
+
     // Create a skill
-    const skill = new Skill({
+    const new_skill = new Skill({
+      cv: cv_id,
       skillTitle: req.body.skillTitle,
       skillValue: req.body.skillValue,
     });
@@ -34,6 +38,8 @@ exports.create = (req, res) => {
             err.message || "Some error occurred while creating the skill."
         });
       });
+
+    return new_skill.id
   };
 
 // Retrieve all skills from the database.

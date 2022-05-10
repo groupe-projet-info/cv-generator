@@ -1,10 +1,10 @@
 const db = require("../models");
 const CV = db.cvs;
+var helpers = require("./helpers");
 
 
 
 // Create and Save a new cv
-
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.jobTitle) {
@@ -59,15 +59,13 @@ exports.findAll = (req, res) => {
 
 // Find a single cv with an id
 exports.findOne = (req, res) => {
-  
 };
+
 // Update a cv by the id in the request
 exports.update = (req, res) => {
-  
 };
 
 // Delete a cv with the specified id in the request
-
 exports.delete = (req, res) => {
     const id = req.params.id;
     CV.findByIdAndRemove(id)
@@ -106,24 +104,32 @@ exports.deleteAll = (req, res) => {
 };
 
 
-
-//A MODIFIER
-
-
-exports.update = (req, res) => {
+exports.add_skill = (req, res) => {
     if (!req.body) {
       return res.status(400).send({
         message: "Data to update can not be empty!"
       })
     }
-    const id = req.params.id;
 
     // update the CV 
-   //--------------------- Write something here
-   new_cv={}
+    const cv_id = req.params.id;
+    new_skill= helpers.create_skill(req,res)
+
+
+    CV.findById(cv_id)
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found CV with id " + id });
+      else { bnew_cv = data.skills.push(new_skill) }
+  })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving CV with id=" + id });
+    });
     
     // save the updated CV
-    CV.findByIdAndUpdate(id, new_cv, { useFindAndModify: false })
+    CV.findByIdAndUpdate(cv_id, new_cv, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -137,3 +143,4 @@ exports.update = (req, res) => {
       });
     });
 };
+
