@@ -7,14 +7,14 @@
             <v-toolbar-title>Connexion</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form ref="form" v-model="valid" lazy-validate>
+            <v-form ref="form" v-model="valid" lazy-validate @submit.prevent="login">
               <v-text-field v-model="username" :rules="nameRules" required prepend-icon="fa-user" name="username"
-                label="Identifiant" type="text" @input="$refs.form.resetValidation()" />
+                label="Identifiant" type="text" @input="$refs.form.resetValidation()" autofocus />
               <v-text-field v-model="password" :rules="passwordRules" required prepend-icon="fa-lock" name="password"
                 label="Mot de passe" type="password" @input="$refs.form.resetValidation()" />
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :loading="loading" :ripple="false" color="primary" @click="login">Se connecter</v-btn>
+                <v-btn type="submit" :loading="loading" :ripple="false" color="primary">Se connecter</v-btn>
               </v-card-actions>
             </v-form>
           </v-card-text>
