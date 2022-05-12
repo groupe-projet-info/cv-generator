@@ -1,8 +1,12 @@
 import colors from 'vuetify/es5/util/colors'
+import { config } from 'dotenv'
+
+config()
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -34,7 +38,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: "./plugins/api/index.ts" }
+    { src: "./plugins/api/index.ts", mode: "client" },
+    { src: "./plugins/async-computed.ts" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -59,7 +64,7 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     treeShake: true,
     theme: {
-      dark: true,
+      // dark: true,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -75,6 +80,10 @@ export default {
     defaultAssets: {
       icons: 'fa'
     }
+  },
+
+  axios: {
+    baseURL: process.env.API_URI
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
