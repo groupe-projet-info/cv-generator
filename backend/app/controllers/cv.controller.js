@@ -10,14 +10,14 @@ const Skill = db.skills;
 // Create and Save a new cv
 exports.create = (req, res) => {
     // Validate request
-    if (!req.headers["user_id"]) {
+    if (!req.userId) {
       res.status(400).send({ message: "User id cannot be empty! Check the headers" });
       return;
     }
 
     // Create a cv
     const cv = new CV({
-      user: req.headers["user_id"],
+      user: req.userId,
       sex: req.body.sex,
       phoneNumber: req.body.phoneNumber,
       emailAdress: req.body.emailAdress,
@@ -66,7 +66,7 @@ exports.find_one_cv = (req, res) => {
 
 // Find a cv with the specified user id in the request
 exports.find_user_all_cvs = (req, res) => {
-  var user_id = req.params.user_id;
+  var user_id = req.userId;
   var cv_id= req.params.cv_id;
 
   User.findById(user_id)
@@ -339,7 +339,7 @@ exports.remove_one_cv = (req, res) => {
 
 // Delete all cvs with the specified user id in the request
 exports.delete_user_all_cvs = (req, res) => {
-  var user_id = req.params.user_id;
+  var user_id = req.userId;
   var cv_id= req.params.cv_id;
 
   CV.find({ user : user_id })

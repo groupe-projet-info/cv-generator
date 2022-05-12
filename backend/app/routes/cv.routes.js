@@ -11,7 +11,7 @@ module.exports = app => {
     cv_router.get("/cv/:cv_id", [authJwt.verifyToken], cvs.find_one_cv);
 
     // Get all cvs of a user
-    cv_router.get("/user/:user_id/cv", [authJwt.verifyToken], cvs.find_user_all_cvs);
+    cv_router.get("/cv", [authJwt.verifyToken], cvs.find_user_all_cvs);
 
     //Modifications
     cv_router.post("/cv/:cv_id/phonenumber", [authJwt.verifyToken], cvs.set_phoneNumber);
@@ -26,8 +26,8 @@ module.exports = app => {
    
 
     // Delete all cvs of one user 
-    cv_router.delete("/user/:user_id/cv",  [authJwt.verifyToken], cvs.delete_user_all_cvs);
-    cv_router.delete("/user/:user_id/cv/:cv_id",  [authJwt.verifyToken], cvs.remove_one_cv);
+    cv_router.delete("/cv",  [authJwt.verifyToken], cvs.delete_user_all_cvs);
+    cv_router.delete("/cv/:cv_id",  [authJwt.verifyToken], cvs.remove_one_cv);
 
     
     app.use("/api",cv_router);
