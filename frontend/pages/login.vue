@@ -9,9 +9,9 @@
           <v-card-text>
             <v-form ref="form" v-model="valid" lazy-validate @submit.prevent="login">
               <v-text-field v-model="username" :rules="nameRules" required prepend-icon="fa-user" name="username"
-                label="Identifiant" type="text" @input="$refs.form.resetValidation()" autofocus />
+                label="Identifiant" type="text" @input="$refs.form.resetValidation(); success = true" autofocus />
               <v-text-field v-model="password" :rules="passwordRules" required prepend-icon="fa-lock" name="password"
-                label="Mot de passe" type="password" @input="$refs.form.resetValidation()" />
+                label="Mot de passe" type="password" @input="$refs.form.resetValidation(); success = true" />
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" :loading="loading" :ripple="false" color="primary">Se connecter</v-btn>
@@ -66,6 +66,8 @@ export default Vue.extend({
         this.loading = false
         if (this.success) {
           this.$router.push('/')
+        } else {
+          (this.$refs.form as any).validate()
         }
       }
     }

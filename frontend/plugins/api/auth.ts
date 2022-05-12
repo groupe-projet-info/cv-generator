@@ -10,6 +10,12 @@ export interface AuthAPI {
   canRegister(username: string): Promise<boolean>,
 }
 
+interface LoginData {
+  id: string,
+  userName: string,
+  accessToken: string
+}
+
 const parseCookie = (str: string): any => {
   return str
     .split(';')
@@ -29,30 +35,66 @@ function getUserFromCookies() {
   return cookies.token ? cookies.token : ''
 }
 
-function initTokenStorage(store: Store<StoreState>) {
+function initTokenStorage($axios: NuxtAxiosInstance, store: Store<StoreState>) {
   const token = getUserFromCookies()
-  store.commit('setToken', token)
+  if (token != undefined) {
+    store.commit('setToken', token)
+    $axios.defaults.headers['X-Access-Token'] = token
+    // const user = await $axios.$get('/api/user')
+    // store.commit('setUser', user)
+  }
 }
 
 function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): AuthAPI {
-  initTokenStorage(store)
+  initTokenStorage($axios, store)
   return {
     async login(username: string, password: string) {
-      const token = "test"
+      let data: LoginData | null | undefined;
+      try {
+        data = await $axios.$post('/api/auth/login', { userName: username, password })
+      } catch (_err) {
+        return false
+      }
+
+      if (!data || !data.accessToken) {
+        console.log('accessToken is not defined')
+        return false
+      }
+
+      const token = data.accessToken
       document.cookie = `token=${token};expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/;SameSite=Strict`
       store.commit('setToken', token)
+      $axios.defaults.headers['X-Access-Token'] = token
+      // const user = await $axios.$get('/api/user')
+      // store.commit('setUser', user)
       store.commit('setUser', { username: 'TEST' })
       return true
     },
     async logout() {
       document.cookie = `token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;SameSite=Strict`
+      $axios.defaults.headers['X-Access-Token'] = undefined
       store.commit('setToken', '')
       store.commit('setUser', {})
       return true
     },
-    async register(username: string, password: string, confirmPassword: string) { return false },
-    async test() { return store.state.token == 'test' },
-    async canRegister(username: string) { return false }
+    async register(username: string, password: string, confirmPassword: string) {
+      try {
+        let data = await $axios.$post('/api/auth/register', { userName: username, password })
+        return true
+      } catch (_err) {
+        return false
+      }
+    },
+    async test() {
+      if (store.state.token == '') return false
+      try {
+        const a = await $axios.$post('/api/auth/test')
+      } catch (err) {
+        return false
+      }
+      return true
+    },
+    async canRegister(username: string) { return true }
   }
 }
 

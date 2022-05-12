@@ -1,4 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
+import { config } from 'dotenv'
+
+config()
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -77,6 +80,10 @@ export default {
     defaultAssets: {
       icons: 'fa'
     }
+  },
+
+  axios: {
+    baseURL: process.env.API_URI
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
