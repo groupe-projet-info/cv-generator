@@ -18,7 +18,6 @@ exports.create = (req, res) => {
     // Create a cv
     const cv = new CV({
       user: req.userId,
-      sex: req.body.sex,
       phoneNumber: req.body.phoneNumber,
       emailAdress: req.body.emailAdress,
       homeAdress: req.body.homeAdress,
@@ -27,7 +26,7 @@ exports.create = (req, res) => {
       education:[],
       skills:[],
       previousJobs:[],
-      hobbies:[],
+      hobbies:!req.body.hobbies ? [] : req.body.hobbies,
       languages:[],
       extracurricularCertifications:[],
       preset: req.body.preset
@@ -67,7 +66,6 @@ exports.find_one_cv = (req, res) => {
 // Find a cv with the specified user id in the request
 exports.find_user_all_cvs = (req, res) => {
   var user_id = req.userId;
-  var cv_id= req.params.cv_id;
 
   User.findById(user_id)
   .then(user => {
