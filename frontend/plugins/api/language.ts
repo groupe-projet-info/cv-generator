@@ -3,7 +3,7 @@ import { Store } from 'vuex'
 
 export interface LanguageAPI {
   getList(cvId: string): Promise<any>,
-  add_to_cv(cvId: string, lanuageName: string, level: string): Promise<any>,
+  add_to_cv(cvId: string, languageName: string, level: string): Promise<any>,
   deleteItem(cvId: string, id: any): Promise<boolean>,
   deleteList(cvId: string): Promise<boolean>
 }
@@ -19,9 +19,9 @@ function generateLanguage($axios: NuxtAxiosInstance, store: Store<any>): Languag
       }
     },
 
-    async add_to_cv(cvId: string, lanuageName: string, level: string) {
+    async add_to_cv(cvId: string, languageName: string, level: string) {
       try {
-        let a = await $axios.$post("/api/cv/"+cvId+"/language", {lanuageName: lanuageName, level: level });
+        let a = await $axios.$post("/api/cv/"+cvId+"/language", {languageName: languageName, level: level });
         return true;
       } catch (_err) {
         return false
