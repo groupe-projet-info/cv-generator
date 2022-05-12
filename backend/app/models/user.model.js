@@ -1,11 +1,16 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema
-
-var User_Schema = new Schema({
-    userName: String,
-    password: String,
-    creationDate: Date,
-    lastActiveDate: Date,  
+module.exports = mongoose => {
+    var schema = mongoose.Schema({
+        userName: String,
+        password: String
 });
-
-module.exports = mongoose.model('User', User_Schema)
+  
+    schema.method("toJSON", function() {
+      const { __v, _id, ...object } = this.toObject();
+      object.id = _id;
+      return object;
+    });
+  
+    const User = mongoose.model("User", schema);
+    return User;
+  };
+  

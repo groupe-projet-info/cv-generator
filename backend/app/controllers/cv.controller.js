@@ -1,20 +1,22 @@
 const db = require("../models");
 const CV = db.cvs;
-
-
+const Certification = db.certifications;
+const Education = db.educations;
+const Job = db.jobs;
+const Language = db.languages;
+const Skill = db.skills;
 
 // Create and Save a new cv
-
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.jobTitle) {
-      res.status(400).send({ message: "Content can not be empty!" });
+    if (!req.body.preset) {
+      res.status(400).send({ message: "Preset can not be empty!" });
       return;
     }
 
     // Create a cv
     const cv = new CV({
-      user: req.body.user,
+      user: req.body.user_id,
       jobTitle: req.body.jobTitle,
       education:[],
       skills:[],
@@ -22,9 +24,7 @@ exports.create = (req, res) => {
       hobbies:[],
       languages:[],
       extracurricularCertifications:[],
-      preset: req.body.preset,
-      creationDate:Date.now().toISOString(),
-      lastModifiedDate: creationDate,
+      preset: req.body.preset
     });
 
     // Save it in the database
@@ -41,99 +41,156 @@ exports.create = (req, res) => {
       });
   };
 
-
-// Retrieve all cvs from the database.
-exports.findAll = (req, res) => {
-    CV.find({})
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving CVs."
-        });
-      });
-  };
-  
-
 // Find a single cv with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update a cv by the id in the request
-exports.update = (req, res) => {
-  
-};
+exports.find_one_cv = (req, res) => {
+  const id = req.params.cv_id;
 
-// Delete a cv with the specified id in the request
-
-exports.delete = (req, res) => {
-    const id = req.params.id;
-    CV.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: "Cannot delete CV with id"+ id
-          });
-        } else {
-          res.send({
-            message: "CV was deleted successfully!"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete CV with id=" + id
-        });
-      });
-  };
-
-// Delete all CVs from the database.
-exports.deleteAll = (req, res) => {
-    CV.deleteMany({})
+  CV.findById(id)
     .then(data => {
-      res.send({
-        message: `${data.deletedCount} CVs were deleted successfully!`
-      });
+      if (!data)
+        res.status(404).send({ message: "Not found CV with id " + id });
+      else res.send(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving CV with id=" + id });
+    });
+};
+
+
+// JOBTITLE
+exports.set_jobtitle = (req, res) => {
+  var cv_id = req.params.cv_id;
+  if (!req.body.jobTitle) {
+    res.status(400).send({ message: "Content can not be empty!" });
+    return;
+  }
+
+  CV.findById(cv_id)
+  .then(data => {
+    if (!data)
+      res.status(404).send({ message: "Not found CV with id " + cv_id });
+    else { 
+      data.jobTitle = req.body.jobTitle;
+      data.save(data); 
+      res.send({ message: "CV was updated successfully." });
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+
+};
+
+// HOBBIES
+exports.set_hobbies = (req, res) => {
+  var cv_id = req.params.cv_id;
+  if (!req.body) {
+    res.status(400).send({ message: "Content can not be empty!" });
+    return;
+  }
+
+  CV.findById(cv_id)
+  .then(data => {
+    if (!data)
+      res.status(404).send({ message: "Not found CV with id " + cv_id });
+    else { 
+      data.hobbies = req.body.hobbies
+      data.save(data); 
+      res.send({ message: "CV was updated successfully." });
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+
+};
+
+
+
+//DELETE CVS
+
+exports.remove_one_cv = (req, res) => {
+
+  const cv_id = req.params.cv_id;
+
+  Certification.deleteMany({ cv: cv_id })
+
+    .then(data => {
+      console.log(`${data.deletedCount} Certifications were deleted successfully!`);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while removing all CVs."
+          err.message || "Some error occurred while removing all Certifications."
       });
     });
-};
 
-
-
-//A MODIFIER
-
-
-exports.update = (req, res) => {
-    if (!req.body) {
-      return res.status(400).send({
-        message: "Data to update can not be empty!"
-      })
-    }
-    const id = req.params.id;
-
-    // update the CV 
-   //--------------------- Write something here
-   new_cv={}
-    
-    // save the updated CV
-    CV.findByIdAndUpdate(id, new_cv, { useFindAndModify: false })
+    Education.deleteMany({ cv: cv_id })
     .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: `Cannot update CV with id=${id}. Maybe CV was not found!`
-        });
-      } else res.send({ message: "CV was updated successfully." });
+      console.log(`${data.deletedCount} Educations were deleted successfully!`);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating CV with id=" + id
+        message:
+          err.message || "Some error occurred while removing all Educations."
       });
     });
+
+    Job.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} Jobs were deleted successfully!`);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all Jobs."
+      });
+    });
+
+    Language.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} Languages were deleted successfully!`);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all Languages."
+      });
+    });
+
+    Skill.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} Skills were deleted successfully!`);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all Skills."
+      });
+    });
+
+    CV.findByIdAndRemove(cv_id, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete CV with id=${cv_id}. Maybe it was not found!`
+        });
+      } else {
+        res.send({
+          message: "CV was deleted successfully!"
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete CV with id=" + cv_id
+      });
+    });
+
 };

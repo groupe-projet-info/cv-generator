@@ -1,97 +1,126 @@
 const db = require("../models");
 const Language = db.languages;
-
-// Create and Save a new Language
-
-exports.create = (req, res) => {
-    // Validate request
-    if (!req.body.languageName) {
-      res.status(400).send({ message: "Content can not be empty!" });
-      return;
-    }
-    // Create a Language
-    const language = new Language({
-      languageName: req.body.languageName,
-      level: req.body.level,
-      });
-
-    // Save Language in the database
-    language
-      .save(language)
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the languages."
-        });
-      });
-  };
-
-
-// Retrieve all Languages from the database.
-exports.findAll = (req, res) => {
-    Language.find({})
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving languages."
-        });
-      });
-  };
+const CV = db.cvs;
   
+exports.add_language = (req, res) => {
+  var cv_id = req.params.cv_id;
 
-// Find a single Language with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update a Language by the id in the request
-exports.update = (req, res) => {
-  
-};
+  if (!req.body.languageName) {
+    res.status(400).send({ message: "Content can not be empty!" });
+    return;
+  }
 
-// Delete a Language with the specified id in the request
+  // Create a language
+  const language = new Language({
+    cv: cv_id,
+    languageName: req.body.languageName,
+    level: req.body.level
+  });
 
-exports.delete = (req, res) => {
-    const id = req.params.id;
-    Language.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: "Cannot delete Language with id"+ id
-          });
-        } else {
-          res.send({
-            message: "Language was deleted successfully!"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete Language with id=" + id
-        });
-      });
-  };
-
-// Delete all Languages from the database.
-exports.deleteAll = (req, res) => {
-    Language.deleteMany({})
+  // Save language in the database
+  language
+    .save(language)
     .then(data => {
-      res.send({
-        message: `${data.deletedCount} Languages were deleted successfully!`
+    
+      CV.findById(cv_id)
+      .then( (cv)=>{
+        cv.languages.push(data._id)
+        cv.save(cv);
       });
+
+    res.send({ message: "CV was updated successfully." });
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while removing all Languages."
+          err.message || "Some error occurred while creating the language."
       });
     });
+
+
 };
 
 
+exports.find_all_languages = (req, res) => {
+  var cv_id = req.params.cv_id;
 
+  CV.findOne({ _id: cv_id })
+    .populate('languages').exec((err, cv) => {
+      if (err) return handleError(err);
+      res.send(cv.languages)
+      console.log(cv.languages.length+" languages retrieved successfully ");
+    })
+
+};
+
+
+exports.remove_one_language = (req, res) => {
+  var cv_id = req.params.cv_id;
+  var lang_id= req.params.lang_id;
+
+  CV.findById(cv_id)
+  .then(cv => {
+    if (!cv)
+      res.status(404).send({ message: "Not found CV with id " + cv_id });
+    else { 
+      Language.findByIdAndRemove(lang_id, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete language with id=${lang_id}. Maybe it was not found!`
+        });
+      } else {
+        res.send({
+          message: "Language was deleted successfully!"
+        });
+        cv.languages.pull(lang_id);
+        cv.save(cv); 
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete language with id=" + lang_id
+      });
+    });
+      
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+
+};
+
+
+exports.remove_all_languages = (req, res) => {
+  var cv_id = req.params.cv_id;
+
+  Language.deleteMany({ cv: cv_id })
+    .then(data => {
+      console.log(`${data.deletedCount} languages were deleted successfully!`);
+      CV.findById(cv_id)
+      .then(cv => {
+        if (!cv)
+        res.status(404).send({ message: "Not found CV with id " + cv_id });
+        else { 
+          cv.languages = [];
+          cv.save(data); 
+          res.send({ message: "CV was updated successfully." });
+        }
+      })
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+  });
+})
+.catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while removing all languages."
+    });
+  });
+
+};
