@@ -12,7 +12,7 @@ module.exports = app => {
     certif_router.get("/:cv_id/certification", [authJwt.verifyToken], certif.find_all_certifications);
     
     //Delete
-    certif_router.delete("/:cv_id/certification/:certif_id", [authJwt.verifyToken], certif.remove_one_certification);
+    certif_router.delete("/:cv_id/certification/:certif_id", [authJwt.verifyToken],  certif.remove_one_certification);
     certif_router.delete("/:cv_id/certification", [authJwt.verifyToken], certif.remove_all_certifications);
     
     app.use("/api/cv", certif_router);

@@ -2,20 +2,24 @@ import { NuxtAxiosInstance } from "@nuxtjs/axios"
 import { Store } from 'vuex'
 
 export interface CVAPI {
-  getList(): void,
-  getItem(id: any): void,
   create(): Promise<any>,
-  delete(id: any): Promise<boolean>,
-  update(id: any): Promise<boolean>,
+  getItem(id: any): Promise<any>,
+  
+  update_hobbies(id: any): Promise<any>,
+  update_jobtitle(id: any): Promise<any>,
+
+  deleteItem(id: any): Promise<boolean>,
 }
 
 function generateCV($axios: NuxtAxiosInstance, store: Store<any>): CVAPI {
   return {
-    async getList() { },
-    async getItem(id: any) { },
     async create() { return '0' },
-    async delete(id: any) { return false },
-    async update(id: any) { return false },
+    async getItem(id: any) { },
+
+    async update_hobbies(id: any) { return '0' },
+    async update_jobtitle(id: any) { return '0' },
+    
+    async deleteItem(id: any) { return false }
   }
 }
 
