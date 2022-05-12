@@ -11,7 +11,7 @@ const Skill = db.skills;
 exports.create = (req, res) => {
     // Validate request
     if (!req.headers["user_id"]) {
-      res.status(400).send({ message: "User id cannot be empty!" });
+      res.status(400).send({ message: "User id cannot be empty! Check the headers" });
       return;
     }
 
@@ -65,7 +65,7 @@ exports.find_one_cv = (req, res) => {
 };
 
 // Find a cv with the specified user id in the request
-exports.find_user_cvs = (req, res) => {
+exports.find_user_all_cvs = (req, res) => {
   var user_id = req.params.user_id;
   var cv_id= req.params.cv_id;
 
@@ -75,7 +75,7 @@ exports.find_user_cvs = (req, res) => {
       res.status(404).send({ message: "Not found user with id " + user_id });
     else { 
 
-      CV.find({User:user_id})
+      CV.find({ user : user_id })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -94,32 +94,6 @@ exports.find_user_cvs = (req, res) => {
   });
 
 };
-// Set user's sex
-exports.set_sex = (req, res) => {
-  var cv_id = req.params.cv_id;
-  if (!req.body.sex) {
-    res.status(400).send({ message: "Content can not be empty!" });
-    return;
-  }
-
-  CV.findById(cv_id)
-  .then(data => {
-    if (!data)
-      res.status(404).send({ message: "Not found CV with id " + cv_id });
-    else { 
-      data.sex = req.body.sex;
-      data.save(data); 
-      res.send({ message: "CV was updated successfully." });
-    }
-})
-  .catch(err => {
-    res
-      .status(500)
-      .send({ message: "Error retrieving CV with id=" + cv_id });
-  });
-
-};
-
 
 // Set user's phone number
 exports.set_phoneNumber = (req, res) => {
@@ -279,9 +253,8 @@ exports.set_hobbies = (req, res) => {
 
 
 //DELETE CVS
-exports.delete_many = (req, res) => {
 
-  const cv_id = req.params.cv_id;
+exports.delete_all_elements_of_cv = (cv_id, res) => {
 
   Certification.deleteMany({ cv: cv_id })
 
@@ -340,68 +313,63 @@ exports.delete_many = (req, res) => {
     });
 }
 
-
 exports.remove_one_cv = (req, res) => {
-
   const cv_id = req.params.cv_id;
-    CV.delete_many(cv_id)
-    CV.findByIdAndRemove(cv_id, { useFindAndModify: false })
-    .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: `Cannot delete CV with id=${cv_id}. Maybe it was not found!`
-        });
-      } else {
-        res.send({
-          message: "CV was deleted successfully!"
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete CV with id=" + cv_id
-      });
-    });
 
+  this.delete_all_elements_of_cv(cv_id,res);
+
+  CV.findByIdAndRemove(cv_id, { useFindAndModify: false })
+  .then(data => {
+    if (!data) {
+      res.status(404).send({
+        message: `Cannot delete CV with id=${cv_id}. Maybe it was not found!`
+      });
+    } else {
+      res.send({
+        message: "CV was deleted successfully!"
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Could not delete CV with id=" + cv_id
+    });
+  });
 };
 
-// Delete a cv with the specified user id in the request
-exports.delete_user_cv = (req, res) => {
+// Delete all cvs with the specified user id in the request
+exports.delete_user_all_cvs = (req, res) => {
   var user_id = req.params.user_id;
   var cv_id= req.params.cv_id;
 
-  User.findById(user_id)
-  .then(user => {
-    if (!user)
-      res.status(404).send({ message: "User with id " + user_id + " not found." });
+  CV.find({ user : user_id })
+  .then(cvs => {
+    if (!cvs)
+      res.status(404).send({ message: "CVs not found." });
     else { 
-      CV.delete_many(cv_id)
-      CV.findByIdAndRemove(cv_id, { useFindAndModify: false })
-    .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: `Cannot delete cv with id=${cv_id}.`
+      cvs.forEach( (cv)=> {
+        this.delete_all_elements_of_cv(cv.id,res);
+        CV.findByIdAndRemove(cv.id, { useFindAndModify: false })
+        .then(data => {
+          if (!data) {
+            res.status(404).send({
+              message: `Cannot delete cv with id=${cv_id}.`
+            });
+          } else {
+            console.log("1 CV was deleted successfully!");
+          }
         });
-      } else {
-        res.send({
-          message: "Cv was deleted successfully!"
-        });
-        user.save(user); 
+    });
+    res.send({
+      message: "All cvs deleted successfully!"
+    });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete cv with id: " + cv_id
+        message: "Error while retrieving the CVs." 
       });
     });
       
-    }
-})
-  .catch(err => {
-    res
-      .status(500)
-      .send({ message: "Error retrieving user with id: " + user_id });
-  });
-
 };
 
