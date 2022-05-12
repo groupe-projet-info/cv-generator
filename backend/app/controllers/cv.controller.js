@@ -49,18 +49,23 @@ exports.create = (req, res) => {
 // Find a single cv with an id
 exports.find_one_cv = (req, res) => {
   const id = req.params.cv_id;
-
+  
   CV.findById(id)
-    .then(data => {
-      if (!data)
-        res.status(404).send({ message: "Not found CV with id " + id });
-      else res.send(data);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .send({ message: "Error retrieving CV with id=" + id });
+    .populate('extracurricularCertifications')
+    .populate('education')
+    .populate('previousJobs')
+    .populate('languages')
+    .populate('skills')
+    .exec((err, cv) => {
+      if (err) {
+        res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + id });
+      }
+      res.send(cv)
+      console.log("1 CV retrieved");
     });
+
 };
 
 // Find a cv with the specified user id in the request
