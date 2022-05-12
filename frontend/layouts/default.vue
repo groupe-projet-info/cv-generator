@@ -47,6 +47,11 @@ export default Vue.extend({
     }
   },
   async fetch() {
+    if (window.matchMedia) {
+      this.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    } else {
+      this.$vuetify.theme.dark = true
+    }
     this.loggedIn = await this.$api.auth.test()
   },
   fetchOnServer: false

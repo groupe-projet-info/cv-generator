@@ -3,13 +3,13 @@ import { Store } from 'vuex'
 
 export interface UserAPI {
   getUser(): void,
-  changePassword(newPassword: string, newPasswordConfirmation: string): Promise<boolean>,
+  changePassword(password: string, newPassword: string, newPasswordConfirmation: string): Promise<boolean>,
 }
 
 function generateUser($axios: NuxtAxiosInstance, store: Store<any>): UserAPI {
   return {
     async getUser() { },
-    async changePassword(newPassword: string, newPasswordConfirmation: string) { return false }
+    async changePassword(password: string, newPassword: string, newPasswordConfirmation: string) { return false }
   }
 }
 

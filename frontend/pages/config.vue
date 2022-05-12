@@ -7,15 +7,15 @@
             <v-toolbar-title>Changer mon mot de passe</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-stepper v-model="e1">
+            <v-stepper v-model="step">
               <v-stepper-header>
-                <v-stepper-step :complete="e1 > 1" step="1">
+                <v-stepper-step :complete="step > 1" step="1">
                   Confirmation du mot de passe
                 </v-stepper-step>
 
                 <v-divider></v-divider>
 
-                <v-stepper-step :complete="e1 > 2" step="2">
+                <v-stepper-step :complete="step > 2" step="2">
                   Nouveau mot de passe
                 </v-stepper-step>
               </v-stepper-header>
@@ -47,7 +47,7 @@
                         Continue
                       </v-btn>
 
-                      <v-btn :ripple="false" text @click="e1 = 1">
+                      <v-btn :ripple="false" text @click="step = 1">
                         Cancel
                       </v-btn>
                     </v-form-actions>
@@ -72,11 +72,12 @@ export default Vue.extend({
   },
   data() {
     return {
-      e1: 1,
+      step: 1,
       password: '',
       newPassword: '',
       newPasswordConfirmation: '',
-      success: false
+      success: false,
+      loading: false
     }
   },
   computed: {
@@ -102,12 +103,19 @@ export default Vue.extend({
     }
   },
   methods: {
-    submitStep1() {
-      this.e1 = 2
-      //TODO: Implement logic, check if password is valid (via login ?)
+    async submitStep1() {
+      this.loading = true
+      this.success = await this.$api.auth.login(this.$store.state.user.username, this.password)
+      if (this.success) {
+        this.success = false
+        this.step = 2
+      }
+      this.loading = false
     },
-    submitStep2() {
-      //TODO: Implement logic, change password
+    async submitStep2() {
+      this.loading = true
+      this.success = await this.$api.user.changePassword(this.password, this.newPassword, this.newPasswordConfirmation)
+      this.loading = false
     }
   }
 })
