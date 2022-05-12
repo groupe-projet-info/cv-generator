@@ -2,24 +2,139 @@ import { NuxtAxiosInstance } from "@nuxtjs/axios"
 import { Store } from 'vuex'
 
 export interface CVAPI {
-  create(): Promise<any>,
+
+  create(phoneNumber?: string, emailAdress?: string, homeAdress?: string, drivingLicence?: string, jobTitle?: string, hobbies?:[string], preset?: string): Promise<any>,
   getItem(id: any): Promise<any>,
+  getList(): Promise<any>,
   
-  update_hobbies(id: any): Promise<any>,
-  update_jobtitle(id: any): Promise<any>,
+  update_emailadress(id: string, emailAdress:string): Promise<any>,
+  update_phonenumber(id: string, phoneNumber:string): Promise<any>,
+  update_homeadress(id: string, homeAdress:string): Promise<any>,
+  update_licence(id: string, drivingLicence:string): Promise<any>,
+  update_hobbies(id: string, hobbies:[string]): Promise<any>,
+  update_jobtitle(id: string, jobTitle:string): Promise<any>,
+  
 
   deleteItem(id: any): Promise<boolean>,
+  deleteList(): Promise<boolean>
+
 }
 
 function generateCV($axios: NuxtAxiosInstance, store: Store<any>): CVAPI {
   return {
-    async create() { return '0' },
-    async getItem(id: any) { },
 
-    async update_hobbies(id: any) { return '0' },
-    async update_jobtitle(id: any) { return '0' },
+    async create(phoneNumber?: string, emailAdress?: string, homeAdress?: string, drivingLicence?: string, jobTitle?: string, hobbies?:[string], preset?: string){ 
+      try {
+        let a = await $axios.$post("/api/cv/", 
+        { phoneNumber: phoneNumber,
+          emailAdress: emailAdress,
+          homeAdress: homeAdress,
+          drivingLicence: drivingLicence,
+          jobTitle: jobTitle,
+          hobbies: hobbies, 
+          preset: preset });
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+
+    async getItem(id: any) {
+      try {
+        const data = await $axios.$get("/api/cv/"+id);
+        return data;
+      } catch (err) {
+        return false
+      } 
+
+    },
+
+    async getList() { 
+      try {
+        const data = await $axios.$get("/api/cv/");
+        return data;
+      } catch (err) {
+        return false
+      }
+    },
+
+    async update_emailadress(id: string, emailAdress:string) { 
+      try {
+        let a = await $axios.$post("/api/cv/"+id+"/emailadress", 
+        { emailAdress: emailAdress });
+        return true;
+      } catch (_err) {
+        return false
+      }
+     },
+
+     async update_phonenumber(id: string, phoneNumber:string) { 
+      try {
+        let a = await $axios.$post("/api/cv/"+id+"/phonenumber", 
+        { phoneNumber: phoneNumber });
+        return true;
+      } catch (_err) {
+        return false
+      }
+     },
+
+     async update_homeadress(id: string, homeAdress:string){ 
+      try {
+        let a = await $axios.$post("/api/cv/"+id+"/homeadress", 
+        { homeAdress: homeAdress });
+        return true;
+      } catch (_err) {
+        return false
+      }
+     },
+
+     async update_licence(id: string, drivingLicence:string){ 
+      try {
+        let a = await $axios.$post("/api/cv/"+id+"/drivinglicence", 
+        { drivingLicence: drivingLicence });
+        return true;
+      } catch (_err) {
+        return false
+      }
+     },
+     async update_hobbies(id: string, hobbies:[string]) { 
+      try {
+        let a = await $axios.$post("/api/cv/"+id+"/hobby", 
+        { hobbies: hobbies });
+        return true;
+      } catch (_err) {
+        return false
+      }
+     },
+
+    async update_jobtitle(id: string, jobTitle:string) { 
+      try {
+        let a = await $axios.$post("/api/cv/"+id+"/jobtitle", 
+        { jobTitle: jobTitle });
+        return true;
+      } catch (_err) {
+        return false
+      }
+     },
     
-    async deleteItem(id: any) { return false }
+    async deleteItem(id: any) { 
+      try {
+        let a = await $axios.$delete("/api/cv/"+id);
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+
+    async deleteList() { 
+      try {
+        let a = await $axios.$delete("/api/cv/");
+        return true;
+      } catch (_err) {
+        return false
+      }
+    }
+    
   }
 }
 

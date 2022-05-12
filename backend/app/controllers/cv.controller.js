@@ -18,7 +18,6 @@ exports.create = (req, res) => {
     // Create a cv
     const cv = new CV({
       user: req.userId,
-      sex: req.body.sex,
       phoneNumber: req.body.phoneNumber,
       emailAdress: req.body.emailAdress,
       homeAdress: req.body.homeAdress,
@@ -27,7 +26,7 @@ exports.create = (req, res) => {
       education:[],
       skills:[],
       previousJobs:[],
-      hobbies:[],
+      hobbies:!req.body.hobbies ? [] : req.body.hobbies,
       languages:[],
       extracurricularCertifications:[],
       preset: req.body.preset
@@ -50,24 +49,28 @@ exports.create = (req, res) => {
 // Find a single cv with an id
 exports.find_one_cv = (req, res) => {
   const id = req.params.cv_id;
-
+  
   CV.findById(id)
-    .then(data => {
-      if (!data)
-        res.status(404).send({ message: "Not found CV with id " + id });
-      else res.send(data);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .send({ message: "Error retrieving CV with id=" + id });
+    .populate('extracurricularCertifications')
+    .populate('education')
+    .populate('previousJobs')
+    .populate('languages')
+    .populate('skills')
+    .exec((err, cv) => {
+      if (err) {
+        res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + id });
+      }
+      res.send(cv)
+      console.log("1 CV retrieved");
     });
+
 };
 
 // Find a cv with the specified user id in the request
 exports.find_user_all_cvs = (req, res) => {
   var user_id = req.userId;
-  var cv_id= req.params.cv_id;
 
   User.findById(user_id)
   .then(user => {

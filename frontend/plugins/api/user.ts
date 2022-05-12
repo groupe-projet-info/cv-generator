@@ -8,8 +8,22 @@ export interface UserAPI {
 
 function generateUser($axios: NuxtAxiosInstance, store: Store<any>): UserAPI {
   return {
-    async getUser() { },
-    async changePassword(password: string, newPassword: string, newPasswordConfirmation: string) { return false }
+    async getUser() { 
+      try {
+        const data = await $axios.$get("/api/user");
+        return data;
+      } catch (err) {
+        return false
+      }
+    },
+    async changePassword(password: string, newPassword: string, newPasswordConfirmation: string) { 
+      try {
+        let a = await $axios.$post("/api/user/password", { password: password, newPassword: newPassword, newPasswordConfirmation: newPasswordConfirmation });
+        return true;
+      } catch (_err) {
+        return false
+      }
+    }
   }
 }
 

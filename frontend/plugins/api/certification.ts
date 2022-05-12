@@ -3,7 +3,7 @@ import { Store } from 'vuex'
 
 export interface CertificationAPI {
   getList(cvId: any): Promise<any>,
-  add_to_cv(cvId: string, authority: string, certificationName: string,certificationPassYear: string ): Promise<any>,
+  add_to_cv(cvId: string, authority: string, certificationName: string,certificationPassYear: number ): Promise<any>,
   deleteItem(cvId: string, certifId: string): Promise<boolean>,
   deleteList(cvId: string): Promise<boolean>
 
@@ -21,7 +21,7 @@ function generateCertification($axios: NuxtAxiosInstance, store: Store<any>): Ce
       }
     },
 
-    async add_to_cv(cvId: string, authority: string, certificationName: string,certificationPassYear: string ) {
+    async add_to_cv(cvId: string, authority: string, certificationName: string,certificationPassYear: number ) {
       try {
         let a = await $axios.$post("/api/cv/"+cvId+"/certification", { authority: authority, certificationName: certificationName, certificationPassYear: certificationPassYear });
         return true;
