@@ -27,18 +27,35 @@ exports.verify_username = (req, res) => {
 
 exports.signup = (req, res) => {
 
-  const user = new User({
-    userName: req.body.userName,
-    password: bcrypt.hashSync(req.body.password, 8)
-  });
+  // Check if Username isnt already used !
+  User.findOne({
+    userName: req.body.userName
+  }).exec((err, data) => {
 
-  user.save((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
-    res.send({ message: "User was registered successfully!" });
+    if (data) {
+      res.status(400).send({ message: "Failed! Username is already in use!" });
+      return;
+    }
+
+    const user = new User({
+      userName: req.body.userName,
+      password: bcrypt.hashSync(req.body.password, 8)
+    });
+  
+    user.save((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      res.send({ message: "User was registered successfully!" });
+    });
+
   });
+
     
 };
 
