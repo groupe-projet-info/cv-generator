@@ -10,6 +10,8 @@ module.exports = function(app) {
   });
   
   app.post("/api/auth/register",auth_controller.signup );
-
   app.post("/api/auth/login", auth_controller.signin);
+  app.post("/api/auth/test", auth_controller.test_token);
+  app.post("/api/auth/can_register", auth_controller.verify_username);
+
 };
