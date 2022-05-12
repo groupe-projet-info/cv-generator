@@ -25,19 +25,25 @@ exports.find_user_data = (req, res) => {
 
 exports.update_password = (req, res) => {
   const user_id = req.userId
-
-  if (!req.body.password) {
-    res.status(400).send({ message: "Content can not be empty!" });
-    return;
-  }
-
+     
   User.findById(user_id)
-  .then(data => {
-    if (!data)
+  .then(user => {
+    if (!user)
       res.status(404).send({ message: "Not found User with id " + user_id });
-    else { 
-      data.password = bcrypt.hashSync(req.body.password, 8)
-      data.save(data); 
+    else {
+      //Check first password
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
+        });}
+      
+      user.password = bcrypt.hashSync(req.body.newPassword, 8)
+      user.save(user); 
       res.send({ message: "User was updated successfully." });
     }
 })
