@@ -5,13 +5,12 @@ const User = db.users;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-
-exports.signup = (req, res) => {
-
+exports.verify_username = (req, res) => {
   // Check if Username isnt already used !
   User.findOne({
     userName: req.body.userName
   }).exec((err, data) => {
+
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -20,21 +19,29 @@ exports.signup = (req, res) => {
       res.status(400).send({ message: "Failed! Username is already in use!" });
       return;
     }
-    const user = new User({
-      userName: req.body.userName,
-      password: bcrypt.hashSync(req.body.password, 8)
-    });
-  
-    user.save((err, user) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-      res.send({ message: "User was registered successfully!" });
-    });
+    res.status(200).send({ message: "Username not taken !" });
+
   });
-  
 };
+
+
+exports.signup = (req, res) => {
+
+  const user = new User({
+    userName: req.body.userName,
+    password: bcrypt.hashSync(req.body.password, 8)
+  });
+
+  user.save((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    res.send({ message: "User was registered successfully!" });
+  });
+    
+};
+
 
 exports.signin = (req, res) => {
   User.findOne({
@@ -59,7 +66,7 @@ exports.signin = (req, res) => {
         });
       }
       var token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.TOKEN_VALIDITY_TIME * 3600 // 24 hours
+        expiresIn: process.env.TOKEN_VALIDITY_TIME * 3600 
       });
       res.status(200).send({
         id: user._id,
@@ -67,4 +74,20 @@ exports.signin = (req, res) => {
         accessToken: token
       });
     });
+};
+
+
+exports.test_token = (req, res) => {
+  
+  let token = req.headers["x-access-token"];
+  if (!token) {
+    return res.status(403).send({ message: "No token provided!" });
+  }
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "Unauthorized!" });
+    }
+    return res.status(200).send({ message: "Authorized!" });
+  });
+
 };
