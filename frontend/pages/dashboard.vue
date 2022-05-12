@@ -40,7 +40,7 @@ export default Vue.extend({
   head: {
     title: "Dashboard"
   },
-  data() {
+  data(): { cvList: any[], loading: boolean } {
     return {
       cvList: [],
       loading: true
@@ -50,6 +50,13 @@ export default Vue.extend({
     this.loading = true
     console.log(1)
     await Wait(2000)
+    this.cvList = [
+      {
+        _id: '1',
+        jobTitle: 'Sample Text',
+        preset: 'CV'
+      }
+    ]
     console.log(2)
     this.loading = false
   },
