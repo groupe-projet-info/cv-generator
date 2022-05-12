@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog :value="true" persistent width="80vw" height="80vh">
+    <v-dialog :value="dialogActive" persistent width="80vw" height="80vh">
       <v-card>
         <div class="container">
           <iframe :id="`view-${$route.params.cv}`" :src="`/${$route.params.cv}/render`" class="responsive-iframe"
@@ -9,7 +9,8 @@
       </v-card>
     </v-dialog>
     <div class="d-flex flex-column" style="position: fixed; bottom: 2vw; right: 2vw; z-index: 99999999">
-      <v-btn fab :ripple="false" class="mb-2" color="blue" :to="`/dashboard/${$route.params.cv}/edit`">
+      <v-btn fab :ripple="false" class="mb-2" color="blue" :to="`/dashboard/${$route.params.cv}/edit`"
+        @click="closeDialog">
         <v-icon>fa-pencil</v-icon>
       </v-btn>
       <v-btn fab :ripple="false" class="mb-2" color="green">
@@ -18,7 +19,7 @@
       <v-btn fab :ripple="false" class="mb-2" color="red">
         <v-icon>fa-trash</v-icon>
       </v-btn>
-      <v-btn fab :ripple="false" color="red" to="/dashboard">
+      <v-btn fab :ripple="false" color="red" to="/dashboard" @click="closeDialog">
         <v-icon>fa-xmark</v-icon>
       </v-btn>
     </div>
@@ -29,7 +30,17 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  middleware: 'auth'
+  middleware: 'auth',
+  data() {
+    return {
+      dialogActive: true
+    }
+  },
+  methods: {
+    closeDialog() {
+      this.dialogActive = false
+    }
+  }
 })
 </script>
 
