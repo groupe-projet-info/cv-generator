@@ -308,7 +308,7 @@
                         @input="CertificationFormDirty = true" />
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="certification.certificationPassYear" :rules="certifRules" label="Date d'obtention" required
+                      <v-text-field v-model="certification.certificationPassYear" :rules="certifRules" label="Date d'obtention" required type="number"
                         @input="CertificationFormDirty = true" />
                     </v-col>
                   </v-row>
@@ -530,15 +530,13 @@ export default Vue.extend({
         (v: any) => /.+@.+\..+/.test(v) || 'Adresse mail invalide',
       ],
       certifRules: [
-        (v: any) => !!v || 'Champ requis',
-        (v: any) => !!v || 'Champ requis',
+        (v: any) => !!v || 'Champ requis'
       ],
       yearRule: [
         (v: any) => typeof v==="number" || "Année invalide",
       ], 
       langRules: [
-        (v: any) => !!v || 'Champ requis',
-        (v: any) => !!v || 'Champ requis',
+        (v: any) => !!v || 'Champ requis'
       ],
       // Old data
       date: new Date().toISOString().substr(0, 7),
