@@ -467,6 +467,9 @@ export default Vue.extend({
       skillRules: [
         (v: any) => !!v || 'Champ requis',
       ],
+      jobRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
       extracurricularCertifications: [{
         authority:'',
         certificationName: '',
