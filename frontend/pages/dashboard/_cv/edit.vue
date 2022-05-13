@@ -119,6 +119,7 @@
                         Sauvegarder
                       </v-btn>
                       <v-btn :ripple="false" :plain="educationFormDirty" color="red" @click="leavePage">
+                        Quitter
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -147,11 +148,11 @@
                        <v-btn :ripple="false" :outlined="!skillFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
-                      <v-btn type="submit" :ripple="false" :plain="!skillsFormDirty" :outlined="!hskillsFormDirty"
+                      <v-btn type="submit" :ripple="false" :plain="!skillFormDirty" :outlined="!skillFormDirty"
                         color="blue">
                         Sauvegarder
                       </v-btn>
-                      <v-btn :ripple="false" :plain="skillsFormDirty" color="red" @click="leavePage">
+                      <v-btn :ripple="false" :plain="skillFormDirty" color="red" @click="leavePage">
                         Quitter
                       </v-btn>
                     </v-col>
@@ -524,21 +525,6 @@ export default Vue.extend({
         hobbies: '',
         id: ''
       }],
-
-      mainFormRules: [
-        (v: any) => !!v || 'Champ requis',
-      ],
-      educationRules: [
-        (v: any) => !!v || 'Champ requis',
-      ],
-      skillRules: [
-        (v: any) => !!v || 'Champ requis',
-      ],
-      
-
-      jobTitleRules: [
-        (v: any) => !!v || 'Champ requis',
-      ],
       emailRules: [
         (v: any) => !!v || 'Champ requis',
         (v: any) => /.+@.+\..+/.test(v) || 'Adresse mail invalide',
