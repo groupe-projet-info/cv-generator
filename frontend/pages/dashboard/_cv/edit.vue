@@ -1,31 +1,39 @@
 <template>
   <div>
-    <v-dialog :value="mainFormActive" persistent width="40vw" height="80vh">
+    <v-dialog :value="mainFormActive" persistent width="80vw" height="80vh">
       <v-card>
         <v-card-title>
           Edition du CV {{ cv.jobTitle }}
         </v-card-title>
         <v-card-text>
+          <v-tabs>
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab>Général</v-tab>
+            <v-tab>Éducation</v-tab>
+            <v-tab>Compétences</v-tab>
+            <v-tab>Expériences professionnelles</v-tab>
+            <v-tab>Hobbies</v-tab>
+            <v-tab>Langues maîtrisées</v-tab>
+            <v-tab>Certifications</v-tab>
+          </v-tabs>
           <v-form ref="mainForm" v-model="mainFormValid" lazy-validation @submit.prevent="saveState">
-            <!-- jobTitle /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
+            <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
             <v-text-field v-model="cv.jobTitle" :rules="jobTitleRules" label="Intitulé du poste recherché" required
               @input="mainFormDirty = true" />
-            <v-form-actions>
-              <v-btn :ripple="false" :outlined="!mainFormDirty" color="green" @click="saveStateAndLeave">
-                Sauvegarder et quitter
-              </v-btn>
-              <v-btn type="submit" :ripple="false" :plain="!mainFormDirty" :outlined="!mainFormDirty" color="blue">
-                Sauvegarder
-              </v-btn>
-              <v-btn :ripple="false" :plain="mainFormDirty" color="red" @click="leavePage">
-                Quitter
-              </v-btn>
-            </v-form-actions>
+            <v-btn :ripple="false" :outlined="!mainFormDirty" color="green" @click="saveStateAndLeave">
+              Sauvegarder et quitter
+            </v-btn>
+            <v-btn type="submit" :ripple="false" :plain="!mainFormDirty" :outlined="!mainFormDirty" color="blue">
+              Sauvegarder
+            </v-btn>
+            <v-btn :ripple="false" :plain="mainFormDirty" color="red" @click="leavePage">
+              Quitter
+            </v-btn>
           </v-form>
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog :value="false" persistent width="40vw" height="80vh">
+    <!--<v-dialog :value="false" persistent width="40vw" height="80vh">
       <v-card>
         <v-card-text>
           <v-form ref="form" v-model="valid" lazy-validation>
@@ -155,7 +163,7 @@
           Reset Form
         </v-btn>
       </v-form>
-    </v-dialog>
+    </v-dialog>-->
   </div>
 </template>
 
