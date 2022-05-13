@@ -15,21 +15,54 @@
             <v-tab>Hobbies</v-tab>
             <v-tab>Langues maîtrisées</v-tab>
             <v-tab>Certifications</v-tab>
+            <v-tab-item>
+              <v-form ref="mainForm" v-model="mainFormValid" lazy-validation @submit.prevent="saveState">
+                <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
+                <v-container>
+                  <v-row>
+                    <v-col>
+                      <v-text-field v-model="cv.jobTitle" :rules="jobTitleRules" label="Intitulé du poste recherché"
+                        required @input="mainFormDirty = true" />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-text-field v-model="cv.phoneNumber" :rules="jobTitleRules" label="Numéro de téléphone" required
+                        @input="mainFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-text-field v-model="cv.emailAdress" :rules="emailRules" label="Adresse mail" required
+                        @input="mainFormDirty = true" />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-text-field v-model="cv.homeAdress" :rules="jobTitleRules" label="Adresse postale" required
+                        @input="mainFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-text-field v-model="cv.drivingLicence" :rules="jobTitleRules" label="Permis de conduire"
+                        required @input="mainFormDirty = true" />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-btn :ripple="false" :outlined="!mainFormDirty" color="green" @click="saveStateAndLeave">
+                        Sauvegarder et quitter
+                      </v-btn>
+                      <v-btn type="submit" :ripple="false" :plain="!mainFormDirty" :outlined="!mainFormDirty"
+                        color="blue">
+                        Sauvegarder
+                      </v-btn>
+                      <v-btn :ripple="false" :plain="mainFormDirty" color="red" @click="leavePage">
+                        Quitter
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+            </v-tab-item>
           </v-tabs>
-          <v-form ref="mainForm" v-model="mainFormValid" lazy-validation @submit.prevent="saveState">
-            <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
-            <v-text-field v-model="cv.jobTitle" :rules="jobTitleRules" label="Intitulé du poste recherché" required
-              @input="mainFormDirty = true" />
-            <v-btn :ripple="false" :outlined="!mainFormDirty" color="green" @click="saveStateAndLeave">
-              Sauvegarder et quitter
-            </v-btn>
-            <v-btn type="submit" :ripple="false" :plain="!mainFormDirty" :outlined="!mainFormDirty" color="blue">
-              Sauvegarder
-            </v-btn>
-            <v-btn :ripple="false" :plain="mainFormDirty" color="red" @click="leavePage">
-              Quitter
-            </v-btn>
-          </v-form>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -179,6 +212,10 @@ export default Vue.extend({
       mainFormDirty: false,
       cv: {
         jobTitle: '',
+        phoneNumber: '',
+        emailAdress: '',
+        homeAdress: '',
+        drivingLicence: '',
         education: [],
         skills: [],
         previousJobs: [],
@@ -188,7 +225,11 @@ export default Vue.extend({
         id: ''
       },
       jobTitleRules: [
-        (v: any) => !!v || 'Name is required',
+        (v: any) => !!v || 'Champ requis',
+      ],
+      emailRules: [
+        (v: any) => !!v || 'Champ requis',
+        (v: any) => /.+@.+\..+/.test(v) || 'Adresse mail invalide',
       ],
       // Old data
       date: new Date().toISOString().substr(0, 7),
@@ -198,10 +239,6 @@ export default Vue.extend({
       name: '',
       items: ["High School", "Ba", "Ma", "Do"],
       email: '',
-      emailRules: [
-        (v: any) => !!v || 'E-mail is required',
-        (v: any) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ],
       school: '',
       schoolRules: [
         (v: any) => !!v || 'Name of school is required',
