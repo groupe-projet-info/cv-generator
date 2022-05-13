@@ -545,16 +545,16 @@ export default Vue.extend({
         id:''
       }],
       extracurricularCertifications: [{
-        authority: '',
+        authority:'',
         certificationName: '',
         certificationPassYear: '',
-        id: ''
+        id:''
       }],
 
       Languages: [{
-        languageName: '',
+        languageName:'',
         level: '',
-        id: ''
+        id:''
       }],
 
       Hobbies: [{
@@ -643,15 +643,6 @@ export default Vue.extend({
       this.$route.params.jobDescription, this.$route.params.jobShortDescription, [this.$route.params.jobTechnicalKeywords],
       Number(this.$route.params.startYear), Boolean(this.$route.params.hasEnded), Number(this.$route.params.endYear),[this.$route.params.missions])
     },
-
-
-
-
-
-
-
-
-
     async saveStateAndLeave() {
       await this.saveState()
       this.leavePage()
