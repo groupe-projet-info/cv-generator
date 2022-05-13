@@ -3,17 +3,17 @@ import { Store } from 'vuex'
 
 export interface CVAPI {
 
-  create(phoneNumber?: string, emailAdress?: string, homeAdress?: string, drivingLicence?: string, jobTitle?: string, hobbies?:[string], preset?: string): Promise<any>,
+  create(v: { phoneNumber?: string, emailAdress?: string, homeAdress?: string, drivingLicence?: string, jobTitle?: string, hobbies?: string[], preset: string }): Promise<any>,
   getItem(id: any): Promise<any>,
   getList(): Promise<any>,
-  
-  update_emailadress(id: string, emailAdress:string): Promise<any>,
-  update_phonenumber(id: string, phoneNumber:string): Promise<any>,
-  update_homeadress(id: string, homeAdress:string): Promise<any>,
-  update_licence(id: string, drivingLicence:string): Promise<any>,
-  update_hobbies(id: string, hobbies:[string]): Promise<any>,
-  update_jobtitle(id: string, jobTitle:string): Promise<any>,
-  
+
+  update_emailadress(id: string, emailAdress: string): Promise<any>,
+  update_phonenumber(id: string, phoneNumber: string): Promise<any>,
+  update_homeadress(id: string, homeAdress: string): Promise<any>,
+  update_licence(id: string, drivingLicence: string): Promise<any>,
+  update_hobbies(id: string, hobbies: [string]): Promise<any>,
+  update_jobtitle(id: string, jobTitle: string): Promise<any>,
+
 
   deleteItem(id: any): Promise<boolean>,
   deleteList(): Promise<boolean>
@@ -23,17 +23,19 @@ export interface CVAPI {
 function generateCV($axios: NuxtAxiosInstance, store: Store<any>): CVAPI {
   return {
 
-    async create(phoneNumber?: string, emailAdress?: string, homeAdress?: string, drivingLicence?: string, jobTitle?: string, hobbies?:[string], preset?: string){ 
+    async create({ phoneNumber, emailAdress, homeAdress, drivingLicence, jobTitle, hobbies, preset }) {
       try {
-        let a = await $axios.$post("/api/cv/", 
-        { phoneNumber: phoneNumber,
-          emailAdress: emailAdress,
-          homeAdress: homeAdress,
-          drivingLicence: drivingLicence,
-          jobTitle: jobTitle,
-          hobbies: hobbies, 
-          preset: preset });
-        return true;
+        let a = await $axios.$post("/api/cv/",
+          {
+            phoneNumber: phoneNumber,
+            emailAdress: emailAdress,
+            homeAdress: homeAdress,
+            drivingLicence: drivingLicence,
+            jobTitle: jobTitle,
+            hobbies: hobbies,
+            preset: preset
+          });
+        return a;
       } catch (_err) {
         return false
       }
@@ -41,92 +43,92 @@ function generateCV($axios: NuxtAxiosInstance, store: Store<any>): CVAPI {
 
     async getItem(id: any) {
       try {
-        const data = await $axios.$get("/api/cv/"+id);
-        return data;
-      } catch (err) {
-        return false
-      } 
-
-    },
-
-    async getList() { 
-      try {
-        const data = await $axios.$get("/api/cv/");
+        const data = await $axios.$get("/api/cv/" + id);
         return data;
       } catch (err) {
         return false
       }
+
     },
 
-    async update_emailadress(id: string, emailAdress:string) { 
+    async getList() {
       try {
-        let a = await $axios.$post("/api/cv/"+id+"/emailadress", 
-        { emailAdress: emailAdress });
-        return true;
-      } catch (_err) {
+        const data = await $axios.$get("/api/cv");
+        return data;
+      } catch (err) {
         return false
       }
-     },
+    },
 
-     async update_phonenumber(id: string, phoneNumber:string) { 
+    async update_emailadress(id: string, emailAdress: string) {
       try {
-        let a = await $axios.$post("/api/cv/"+id+"/phonenumber", 
-        { phoneNumber: phoneNumber });
-        return true;
-      } catch (_err) {
-        return false
-      }
-     },
-
-     async update_homeadress(id: string, homeAdress:string){ 
-      try {
-        let a = await $axios.$post("/api/cv/"+id+"/homeadress", 
-        { homeAdress: homeAdress });
-        return true;
-      } catch (_err) {
-        return false
-      }
-     },
-
-     async update_licence(id: string, drivingLicence:string){ 
-      try {
-        let a = await $axios.$post("/api/cv/"+id+"/drivinglicence", 
-        { drivingLicence: drivingLicence });
-        return true;
-      } catch (_err) {
-        return false
-      }
-     },
-     async update_hobbies(id: string, hobbies:[string]) { 
-      try {
-        let a = await $axios.$post("/api/cv/"+id+"/hobby", 
-        { hobbies: hobbies });
-        return true;
-      } catch (_err) {
-        return false
-      }
-     },
-
-    async update_jobtitle(id: string, jobTitle:string) { 
-      try {
-        let a = await $axios.$post("/api/cv/"+id+"/jobtitle", 
-        { jobTitle: jobTitle });
-        return true;
-      } catch (_err) {
-        return false
-      }
-     },
-    
-    async deleteItem(id: any) { 
-      try {
-        let a = await $axios.$delete("/api/cv/"+id);
+        let a = await $axios.$post("/api/cv/" + id + "/emailadress",
+          { emailAdress: emailAdress });
         return true;
       } catch (_err) {
         return false
       }
     },
 
-    async deleteList() { 
+    async update_phonenumber(id: string, phoneNumber: string) {
+      try {
+        let a = await $axios.$post("/api/cv/" + id + "/phonenumber",
+          { phoneNumber: phoneNumber });
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+
+    async update_homeadress(id: string, homeAdress: string) {
+      try {
+        let a = await $axios.$post("/api/cv/" + id + "/homeadress",
+          { homeAdress: homeAdress });
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+
+    async update_licence(id: string, drivingLicence: string) {
+      try {
+        let a = await $axios.$post("/api/cv/" + id + "/drivinglicence",
+          { drivingLicence: drivingLicence });
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+    async update_hobbies(id: string, hobbies: [string]) {
+      try {
+        let a = await $axios.$post("/api/cv/" + id + "/hobby",
+          { hobbies: hobbies });
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+
+    async update_jobtitle(id: string, jobTitle: string) {
+      try {
+        let a = await $axios.$post("/api/cv/" + id + "/jobtitle",
+          { jobTitle: jobTitle });
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+
+    async deleteItem(id: any) {
+      try {
+        let a = await $axios.$delete("/api/cv/" + id);
+        return true;
+      } catch (_err) {
+        return false
+      }
+    },
+
+    async deleteList() {
       try {
         let a = await $axios.$delete("/api/cv/");
         return true;
@@ -134,7 +136,7 @@ function generateCV($axios: NuxtAxiosInstance, store: Store<any>): CVAPI {
         return false
       }
     }
-    
+
   }
 }
 

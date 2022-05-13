@@ -7,7 +7,7 @@
             <v-card-text>Vous n'avez pas encore créé de CV.</v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn plain :ripple="false" color="blue">Commencez ici</v-btn>
+              <v-btn plain :ripple="false" color="blue" to="/dashboard/new">Commencez ici</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -15,8 +15,8 @@
           <cv-card-skeleton>
           </cv-card-skeleton>
         </v-col>
-        <v-col lg="3" md="4" sm="6" cols="12" v-for="cv in cvList" :key="cv._id">
-          <cv-card :cv="cv">
+        <v-col lg="3" md="4" sm="6" cols="12" v-for="cv in cvList" :key="cv.id">
+          <cv-card :cv="cv" @delete="deleteCV(cv.id)">
           </cv-card>
         </v-col>
       </v-row>
@@ -40,6 +40,11 @@ export default Vue.extend({
   head: {
     title: "Dashboard"
   },
+  watch: {
+    '$route': function (value) {
+      this.$fetch()
+    }
+  },
   data(): { cvList: any[], loading: boolean } {
     return {
       cvList: [],
@@ -47,19 +52,15 @@ export default Vue.extend({
     }
   },
   async fetch() {
-    this.loading = true
-    console.log(1)
-    await Wait(2000)
-    this.cvList = [
-      {
-        _id: '1',
-        jobTitle: 'Sample Text',
-        preset: 'CV'
-      }
-    ]
-    console.log(2)
+    this.cvList = await this.$api.cv.getList()
     this.loading = false
   },
-  fetchOnServer: false
+  fetchOnServer: false,
+  methods: {
+    async deleteCV(id: string) {
+      await this.$api.cv.deleteItem(id)
+      this.$fetch()
+    }
+  }
 })
 </script>

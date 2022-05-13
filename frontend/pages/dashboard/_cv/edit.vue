@@ -27,8 +27,8 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-text-field v-model="cv.fullName" :rules="fullNameRules" label="Nom et Prénom(s)"
-                        required @input="mainFormDirty = true" />
+                      <v-text-field v-model="cv.fullName" :rules="fullNameRules" label="Nom et Prénom(s)" required
+                        @input="mainFormDirty = true" />
                     </v-col>
                   </v-row>
                   <v-row>
@@ -81,22 +81,22 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-text-field v-model="cv.education.title" :rules="educationRules" label="Nom du diplôme ou de la formation" required
-                        @input="educationFormDirty = true" />
+                      <v-text-field v-model="cv.education.title" :rules="educationRules"
+                        label="Nom du diplôme ou de la formation" required @input="educationFormDirty = true" />
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-text-field v-model="cv.education.startYear" :rules="educationRules" label="Année de début" required type="number"
-                        @input="educationFormDirty = true" />
+                      <v-text-field v-model="cv.education.startYear" :rules="educationRules" label="Année de début"
+                        required type="number" @input="educationFormDirty = true" />
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="cv.education.endYear" :rules="educationRules" label="Année de fin" required type="number"
-                        @input="educationFormDirty = true" />
+                      <v-text-field v-model="cv.education.endYear" :rules="educationRules" label="Année de fin" required
+                        type="number" @input="educationFormDirty = true" />
                     </v-col>
                     <v-col>
-                      <v-switch  v-model="cv.education.hasEnded" label="En cours" :rules="educationRules" required
-                      @input="educationFormDirty = true"></v-switch>
+                      <v-switch v-model="cv.education.hasEnded" label="En cours" :rules="educationRules" required
+                        @input="educationFormDirty = true"></v-switch>
                     </v-col>
                   </v-row>
                   <v-row>
@@ -107,7 +107,7 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                       <v-btn :ripple="false" :outlined="!educationFormDirty" color="green" @click="saveStateAndLeave">
+                      <v-btn :ripple="false" :outlined="!educationFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
                       <v-btn type="submit" :ripple="false" :plain="!educationFormDirty" :outlined="!educationFormDirty"
@@ -131,8 +131,8 @@
                         required @input="skillFormDirty = true" />
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="cv.skills.skillValue" :rules="skillRules" label="Exemple"
-                        required @input="skillFormDirty = true" />
+                      <v-text-field v-model="cv.skills.skillValue" :rules="skillRules" label="Exemple" required
+                        @input="skillFormDirty = true" />
                     </v-col>
                   </v-row>
                   <v-row>
@@ -145,6 +145,7 @@
                         Sauvegarder
                       </v-btn>
                       <v-btn :ripple="false" :plain="skillFormDirty" color="red" @click="leavePage">
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -160,47 +161,47 @@
                         required @input="jobFormDirty = true" />
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="cv.previousJobs.companyName" :rules="jobRules" label="Entreprise"
-                        required @input="jobFormDirty = true" />
-                    </v-col>
-                  </v-row>
-
-                  <v-row>
-                    <v-col>
-                      <v-text-field v-model="cv.previousJobs.jobDescription" :rules="jobRules" label="Longue description"
-                        required @input="jobFormDirty = true" />
-                    </v-col>
-                    <v-col>
-                      <v-text-field v-model="cv.previousJobs.jobShortDescription" :rules="jobRules" label="Courte description"
-                        required @input="jobFormDirty = true" />
-                    </v-col>
-                  </v-row>
-
-                  <v-row>
-                    <v-col>
-                      <v-text-field v-model="cv.previousJobs.jobTechnicalKeywords" :rules="jobRules" label="Environnement technique"
-                        required @input="jobFormDirty = true" />
-                    </v-col>
-                    <v-col>
-                      <v-text-field v-model="cv.previousJobs.missions" :rules="jobRules" label="Missions"
-                        required @input="jobFormDirty = true" />
-                    </v-col>
-                  </v-row>
-
-                  <v-row>
-                    <v-col>
-                      <v-text-field v-model="cv.education.startYear" :rules="educationRules" label="Année de début" required type="number"
+                      <v-text-field v-model="cv.previousJobs.companyName" :rules="jobRules" label="Entreprise" required
                         @input="jobFormDirty = true" />
                     </v-col>
+                  </v-row>
+
+                  <v-row>
                     <v-col>
-                      <v-text-field v-model="cv.education.endYear" :rules="educationRules" label="Année de fin" required type="number"
+                      <v-text-field v-model="cv.previousJobs.jobDescription" :rules="jobRules"
+                        label="Longue description" required @input="jobFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-text-field v-model="cv.previousJobs.jobShortDescription" :rules="jobRules"
+                        label="Courte description" required @input="jobFormDirty = true" />
+                    </v-col>
+                  </v-row>
+
+                  <v-row>
+                    <v-col>
+                      <v-text-field v-model="cv.previousJobs.jobTechnicalKeywords" :rules="jobRules"
+                        label="Environnement technique" required @input="jobFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-text-field v-model="cv.previousJobs.missions" :rules="jobRules" label="Missions" required
                         @input="jobFormDirty = true" />
                     </v-col>
+                  </v-row>
+
+                  <v-row>
                     <v-col>
-                      <v-switch  v-model="cv.education.hasEnded" label="En cours" :rules="educationRules" required
-                      @input="jobFormDirty = true"></v-switch>
+                      <v-text-field v-model="cv.education.startYear" :rules="educationRules" label="Année de début"
+                        required type="number" @input="jobFormDirty = true" />
                     </v-col>
-                    </v-row>
+                    <v-col>
+                      <v-text-field v-model="cv.education.endYear" :rules="educationRules" label="Année de fin" required
+                        type="number" @input="jobFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-switch v-model="cv.education.hasEnded" label="En cours" :rules="educationRules" required
+                        @input="jobFormDirty = true"></v-switch>
+                    </v-col>
+                  </v-row>
                   <v-row>
                     <v-col>
                       <v-btn :ripple="false" :outlined="!jobFormDirty" color="green" @click="saveStateAndLeave">
@@ -225,8 +226,8 @@
                 <v-container>
                   <v-row v-for="hobby in Hobbies" :key="hobby.id">
                     <v-col>
-                      <v-text-field v-model="hobby.hobbies" :rules="hobbiesRules" label="Centres d'intérêt"
-                        required @input="hobbiesFormDirty = true" />
+                      <v-text-field v-model="hobby.hobbies" :rules="hobbiesRules" label="Centres d'intérêt" required
+                        @input="hobbiesFormDirty = true" />
                       <v-btn :ripple="false" :outlined="!hobbiesFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
@@ -249,8 +250,8 @@
                 <v-container>
                   <v-row v-for="language in Languages" :key="language.id">
                     <v-col>
-                      <v-text-field v-model="language.languageName" :rules="langRules" label="Langue"
-                        required @input="languageFormDirty = true" />
+                      <v-text-field v-model="language.languageName" :rules="langRules" label="Langue" required
+                        @input="languageFormDirty = true" />
                     </v-col>
                     <v-col>
                       <v-text-field v-model="language.level" :rules="langRules" label="Niveau" required
@@ -281,7 +282,7 @@
     </v-dialog>
 
 
-    
+
     <!--<v-dialog :value="false" persistent width="40vw" height="80vh">
       <v-card>
         <v-card-text>
@@ -451,16 +452,16 @@ export default Vue.extend({
         (v: any) => !!v || 'Champ requis',
       ],
       extracurricularCertifications: [{
-        authority:'',
+        authority: '',
         certificationName: '',
         certificationPassYear: '',
-        id:''
+        id: ''
       }],
 
       Languages: [{
-        languageName:'',
+        languageName: '',
         level: '',
-        id:''
+        id: ''
       }],
 
       Hobbies: [{
@@ -480,8 +481,8 @@ export default Vue.extend({
         (v: any) => !!v || 'Champ requis',
       ],
       yearRule: [
-        (v: any) => typeof v==="number" || "Année invalide",
-      ], 
+        (v: any) => typeof v === "number" || "Année invalide",
+      ],
       langRules: [
         (v: any) => !!v || 'Champ requis',
         (v: any) => !!v || 'Champ requis',

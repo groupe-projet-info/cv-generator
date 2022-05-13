@@ -16,7 +16,7 @@
       <v-btn fab :ripple="false" class="mb-2" color="green" :to="`/dashboard/${$route.params.cv}/export`">
         <v-icon>fa-solid fa-download</v-icon>
       </v-btn>
-      <v-btn fab :ripple="false" class="mb-2" color="red">
+      <v-btn fab :ripple="false" class="mb-2" color="red" @click="deleteCV">
         <v-icon>fa-trash</v-icon>
       </v-btn>
       <v-btn fab :ripple="false" color="red" to="/dashboard" @click="closeDialog">
@@ -39,6 +39,10 @@ export default Vue.extend({
   methods: {
     closeDialog() {
       this.dialogActive = false
+    },
+    async deleteCV() {
+      await this.$api.cv.deleteItem(this.$route.params.cv)
+      this.$router.push('/dashboard')
     }
   }
 })
