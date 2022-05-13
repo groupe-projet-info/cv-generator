@@ -8,7 +8,7 @@
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" v-model="valid" @submit.prevent="register">
-              <v-text-field v-model="username" :rules="nameRules" required prepend-icon="fa-user" name="username"
+              <v-text-field v-model="userName" :rules="nameRules" required prepend-icon="fa-user" name="username"
                 label="Identifiant" type="text" @input="$refs.form.resetValidation()" autofocus />
               <v-text-field v-model="password" :rules="passwordRules" required prepend-icon="fa-lock" name="password"
                 label="Mot de passe" type="password" @input="$refs.form.resetValidation()" />
@@ -42,7 +42,7 @@ export default Vue.extend({
       success: true,
       loading: false,
       valid: true,
-      username: '',
+      userName: '',
       defaultNameRules: [
         (v: any) => !!v || 'L\'identifiant est requis',
       ],
@@ -56,7 +56,7 @@ export default Vue.extend({
   },
   asyncComputed: {
     async asyncNameRules() {
-      let canRegister = await this.$api.auth.canRegister(this.$data.username)
+      let canRegister = await this.$api.auth.canRegister(this.$data.userName)
       return [
         (v: any) => !!v || 'L\'identifiant est requis',
         (_v: any) => !!canRegister || 'Ce nom d\'utilisateur n\'est pas disponible'
@@ -79,7 +79,7 @@ export default Vue.extend({
       // Shut up the ts compiler about potential undefined as VForm is unknown at compile-time
       if ((this.$refs.form as any).validate()) {
         this.loading = true
-        this.success = await this.$api.auth.register(this.username, this.password, this.confirmPassword)
+        this.success = await this.$api.auth.register(this.userName, this.password, this.confirmPassword)
         this.loading = false
         if (this.success) {
           this.$router.push('/login')
