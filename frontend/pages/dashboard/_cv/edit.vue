@@ -18,7 +18,7 @@
 
 
             <v-tab-item>
-              <v-form ref="mainForm" v-model="mainFormValid" lazy-validation @submit.prevent="saveState">
+              <v-form ref="mainForm" v-model="mainFormValid" lazy-validation @submit.prevent="saveMainState">
                 <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
                 <v-container>
                   <v-row>
@@ -55,7 +55,7 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-btn :ripple="false" :outlined="!mainFormDirty" color="green" @click="saveStateAndLeave">
+                      <v-btn :ripple="false" :outlined="!mainFormDirty" color="green" @click="saveMainStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
                       <v-btn type="submit" :ripple="false" :plain="!mainFormDirty" :outlined="!mainFormDirty"
@@ -234,14 +234,14 @@
 
             <!--hobbies-->
             <v-tab-item>
-              <v-form ref="hobbiesForm" v-model="hobbiesFormValid" lazy-validation @submit.prevent="saveState">
+              <v-form ref="hobbiesForm" v-model="hobbiesFormValid" lazy-validation @submit.prevent="saveHobbiesState">
                 <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
                 <v-container>
                   <v-row v-for="hobby in Hobbies" :key="hobby.id">
                     <v-col>
                       <v-text-field v-model="hobby.hobbies" : label="Centres d'intérêt"
                         required @input="hobbiesFormDirty = true" />
-                      <v-btn :ripple="false" :outlined="!hobbiesFormDirty" color="green" @click="saveStateAndLeave">
+                      <v-btn :ripple="false" :outlined="!hobbiesFormDirty" color="green" @click="saveHobbiesStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
                       <v-btn type="submit" :ripple="false" :plain="!hobbiesFormDirty" :outlined="!hobbiesFormDirty"
@@ -260,7 +260,7 @@
 
             <!--languages-->
             <v-tab-item>
-              <v-form ref="languageForm" v-model="languageFormValid" lazy-validation @submit.prevent="saveState">
+              <v-form ref="languageForm" v-model="languageFormValid" lazy-validation @submit.prevent="saveLangState">
                 <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
                 <v-container>
                   <v-row v-for="language in Languages" :key="language.id">
@@ -275,7 +275,7 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-btn :ripple="false" :outlined="!languageFormDirty" color="green" @click="saveStateAndLeave">
+                      <v-btn :ripple="false" :outlined="!languageFormDirty" color="green" @click="saveLangStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
                       <v-btn type="submit" :ripple="false" :plain="!languageFormDirty" :outlined="!languageFormDirty"
@@ -295,7 +295,7 @@
 
             <!--certification-->
             <v-tab-item>
-              <v-form ref="CertificationForm" v-model="CertificationFormValid" lazy-validation @submit.prevent="saveState">
+              <v-form ref="CertificationForm" v-model="CertificationFormValid" lazy-validation @submit.prevent="saveCertifState">
                 <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
                 <v-container>
                   <v-row v-for="certification in extracurricularCertifications" :key="certification.id">
@@ -314,7 +314,7 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-btn :ripple="false" :outlined="!CertificationFormDirty" color="green" @click="saveStateAndLeave">
+                      <v-btn :ripple="false" :outlined="!CertificationFormDirty" color="green" @click="saveStateCertifAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
                       <v-btn type="submit" :ripple="false" :plain="!CertificationFormDirty" :outlined="!CertificationFormDirty"
@@ -496,6 +496,7 @@ export default Vue.extend({
 
       cv: {
         jobTitle: '',
+        fullName: '',
         phoneNumber: '',
         emailAdress: '',
         homeAdress: '',
@@ -538,6 +539,10 @@ export default Vue.extend({
         hobbies: '',
         id: ''
       }],
+
+      fullNameRules: [
+        (v: any) => !!v || 'Champ requis'
+      ],
       emailRules: [
         (v: any) => !!v || 'Champ requis',
         (v: any) => /.+@.+\..+/.test(v) || 'Adresse mail invalide',
@@ -578,10 +583,22 @@ export default Vue.extend({
     education() {
       (this.$refs.form as any).resetValidation()
     },
-    async saveHobbiesStateAndLeave() {
-      await this.saveHobbiesState()
-      this.leavePage()
+    
+
+    async saveMainState() {
+      this.mainFormDirty = false
     },
+
+    async saveMainStateAndLeave() {
+          await this.$api.cv.update_fullName(this.$route.params.cv, this.$route.params.fullName)
+          await this.$api.cv.update_emailadress(this.$route.params.cv, this.$route.params.emailadress)
+          await this.$api.cv.update_phonenumber(this.$route.params.cv, this.$route.params.phonenumber)
+          await this.$api.cv.update_homeadress(this.$route.params.cv, this.$route.params.homeadress)
+          await this.$api.cv.update_licence(this.$route.params.cv, this.$route.params.drivingLicence)
+          await this.$api.cv.update_jobtitle(this.$route.params.cv, this.$route.params.jobtitle)
+          this.leavePage()
+        },
+
     // Hobbies
     async saveHobbiesState() {
       this.hobbiesFormDirty = false
@@ -590,7 +607,7 @@ export default Vue.extend({
       )
     },
 
-    async saveStateAndLeave() {
+    async saveHobbiesStateAndLeave() {
       await this.saveHobbiesState()
       this.leavePage()
     },
@@ -603,7 +620,7 @@ export default Vue.extend({
       )
     },
 
-    async saveStateLangAndLeave() {
+    async saveLangStateAndLeave() {
       await this.saveLangState()
       this.leavePage()
     },
@@ -621,9 +638,7 @@ export default Vue.extend({
       this.leavePage()
     },
 
-    async saveState() {
-      this.mainFormDirty = false
-    },
+    
 
     leavePage() {
       this.mainFormActive = false
