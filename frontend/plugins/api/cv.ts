@@ -3,11 +3,12 @@ import { Store } from 'vuex'
 
 export interface CVAPI {
 
-  create(v: { phoneNumber?: string, emailAdress?: string, homeAdress?: string, drivingLicence?: string, jobTitle?: string, hobbies?: string[], preset: string }): Promise<any>,
+  create(v: { fullName?: string, phoneNumber?: string, emailAdress?: string, homeAdress?: string, drivingLicence?: string, jobTitle?: string, hobbies?: string[], preset: string }): Promise<any>,
   getItem(id: any): Promise<any>,
   getList(): Promise<any>,
 
   update_emailadress(id: string, emailAdress: string): Promise<any>,
+  update_fullName(id: string, update_fullName: string): Promise<any>,
   update_phonenumber(id: string, phoneNumber: string): Promise<any>,
   update_homeadress(id: string, homeAdress: string): Promise<any>,
   update_licence(id: string, drivingLicence: string): Promise<any>,
@@ -23,10 +24,11 @@ export interface CVAPI {
 function generateCV($axios: NuxtAxiosInstance, store: Store<any>): CVAPI {
   return {
 
-    async create({ phoneNumber, emailAdress, homeAdress, drivingLicence, jobTitle, hobbies, preset }) {
+    async create({ fullName, phoneNumber, emailAdress, homeAdress, drivingLicence, jobTitle, hobbies, preset }) {
       try {
         let a = await $axios.$post("/api/cv/",
           {
+            fullName: fullName,
             phoneNumber: phoneNumber,
             emailAdress: emailAdress,
             homeAdress: homeAdress,
@@ -56,6 +58,16 @@ function generateCV($axios: NuxtAxiosInstance, store: Store<any>): CVAPI {
         const data = await $axios.$get("/api/cv");
         return data;
       } catch (err) {
+        return false
+      }
+    },
+
+    async update_fullName(id: string, fullName: string) {
+      try {
+        let a = await $axios.$post("/api/cv/" + id + "/fullname",
+          { fullName: fullName });
+        return true;
+      } catch (_err) {
         return false
       }
     },
