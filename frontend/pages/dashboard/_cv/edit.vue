@@ -603,7 +603,7 @@ export default Vue.extend({
     async saveHobbiesState() {
       this.hobbiesFormDirty = false
       this.$api.cv.update_hobbies(
-        this.$route.params.cv, this.$route.params.hobby
+        this.$route.params.cv, [this.$route.params.hobby]
       )
     },
 
