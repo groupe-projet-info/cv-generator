@@ -13,7 +13,7 @@
         @click="closeDialog">
         <v-icon>fa-pencil</v-icon>
       </v-btn>
-      <v-btn fab :ripple="false" class="mb-2" color="green">
+      <v-btn fab :ripple="false" class="mb-2" color="green" :to="`/dashboard/${$route.params.cv}/export`">
         <v-icon>fa-solid fa-download</v-icon>
       </v-btn>
       <v-btn fab :ripple="false" class="mb-2" color="red">
