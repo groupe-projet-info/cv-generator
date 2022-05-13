@@ -5,8 +5,8 @@ const db = require("./app/models");
 
 require('dotenv').config();
 
-var corsOptions = {
-  origin: "http://localhost:8081"
+const corsOptions = {
+  origin: process.env.ORIGIN_CORS_OPTIONS
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
