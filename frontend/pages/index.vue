@@ -14,7 +14,9 @@
       </v-row>
     </v-parallax>
     <v-container fluid class="d-flex">
-      <v-sheet color="grey" rounded height="380" width="800"></v-sheet>
+      <v-sheet color="grey" rounded height="380" width="800">
+        <v-img src="edit.png"></v-img>
+      </v-sheet>
       <v-divider class="mx-4" vertical></v-divider>
       <v-card>
         <v-container fill-height>
