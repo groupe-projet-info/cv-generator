@@ -239,8 +239,8 @@
                 <v-container>
                   <v-row v-for="hobby in Hobbies" :key="hobby.id">
                     <v-col>
-                      <v-text-field v-model="hobby.hobbies" :rules="hobbiesRules" label="Centres d'intérêt" required
-                        @input="hobbiesFormDirty = true" />
+                      <v-text-field v-model="hobby.hobbies" : label="Centres d'intérêt"
+                        required @input="hobbiesFormDirty = true" />
                       <v-btn :ripple="false" :outlined="!hobbiesFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
@@ -481,6 +481,19 @@ export default Vue.extend({
       mainFormActive: true,
       mainFormValid: false,
       mainFormDirty: false,
+
+      hobbiesFormActive: true,
+      hobbiesFormValid: false,
+      hobbiesFormDirty: false,
+
+      languageFormActive: true,
+      languageFormValid: false,
+      languageFormDirty: false,
+
+      CertificationFormActive: true,
+      CertificationFormValid: false,
+      CertificationFormDirty: false,
+
       cv: {
         jobTitle: '',
         phoneNumber: '',
@@ -565,13 +578,53 @@ export default Vue.extend({
     education() {
       (this.$refs.form as any).resetValidation()
     },
-    async saveStateAndLeave() {
-      await this.saveState()
+    async saveHobbiesStateAndLeave() {
+      await this.saveHobbiesState()
       this.leavePage()
     },
+    // Hobbies
+    async saveHobbiesState() {
+      this.hobbiesFormDirty = false
+      this.$api.cv.update_hobbies(
+        this.$route.params.cv, this.$route.params.hobby
+      )
+    },
+
+    async saveStateAndLeave() {
+      await this.saveHobbiesState()
+      this.leavePage()
+    },
+
+    // Languages
+    async saveLangState() {
+      this.languageFormDirty = false
+      this.$api.language.add_to_cv(
+        this.$route.params.cv, this.$route.params.languageName, this.$route.params.level
+      )
+    },
+
+    async saveStateLangAndLeave() {
+      await this.saveLangState()
+      this.leavePage()
+    },
+
+    // certifications
+    async saveCertifState() {
+      this.CertificationFormDirty = false
+      this.$api.certification.add_to_cv(
+        this.$route.params.cv, this.$route.params.authority, this.$route.params.certificationName, Number(this.$route.params.certificationPassYear)
+        )
+    },
+
+    async saveStateCertifAndLeave() {
+      await this.saveCertifState()
+      this.leavePage()
+    },
+
     async saveState() {
       this.mainFormDirty = false
     },
+
     leavePage() {
       this.mainFormActive = false
       this.$router.back()
