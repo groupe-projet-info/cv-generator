@@ -6,7 +6,7 @@ These commands need to be run from inside of the "backend" folder.
 Before running the project, create a .env file in the backend folder and add inside the following line for configurating the database :
 
 ```
-ORIGIN_CORS_OPTIONS="http://localhost:8081"
+ORIGIN_CORS_OPTIONS="http://localhost:3000"
 DB_URL="mongodb://localhost:27017/info_db"
 ```
 
