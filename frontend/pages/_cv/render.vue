@@ -78,8 +78,8 @@
           <h2 class="no-margin">Formation</h2>
         </div>
         <div class="item" v-for="education in educations" :key="education.id">
-          <div class="item-date">De {{ education.startYear.getFullYear() }} à {{ education.hasEnded ?
-              education.endYear.getFullYear() : 'aujourd\'hui'
+          <div class="item-date">De {{ education.startYear }} à {{ education.hasEnded ?
+              education.endYear : 'aujourd\'hui'
           }}</div>
           <div class="item-content no-margin no-padding c-lines">
             {{ education.location }}: {{ education.title }}. {{ education.comments }}
@@ -91,8 +91,8 @@
           <h2 class="no-margin">Expériences professionnelles</h2>
         </div>
         <div class="item" v-for="job in jobs" :key="job.id">
-          <div class="item-date">De {{ job.startYear.getFullYear() }} à {{ job.hasEnded ?
-              job.endYear.getFullYear() : 'aujourd\'hui'
+          <div class="item-date">De {{ job.startYear }} à {{ job.hasEnded ?
+              job.endYear : 'aujourd\'hui'
           }}</div>
           <div class="item-content no-margin no-padding c-lines">
             {{ job.companyName }}: {{ job.jobTitle }}. {{ job.jobDescription }}
