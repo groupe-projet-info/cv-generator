@@ -82,9 +82,8 @@ DELETE + ./api/cv/{id}/{type_bloc}/{id} : Supprimer valeur en particulier
 
 DELETE + ./api/cv/{id}/{type_bloc} : Supprimer toutes les valeurs pour ce bloc dans le CV {id}
 
-
 POST + ./api/cv/ : Créer  CV (discuter des champs obligatoires - pour le moment c'est preset)
-GET + ./api/cv/{id} : Récupérer  CV (a discuter si on le recupere juste avec les références où tous les éléments )
+GET + ./api/cv/{id} : Récupérer  CV 
 
 POST + ./api/cv/{id}/hobby : Ajouter liste entière hobbies au  CV / Ecraser l'ancienne
 POST + ./api/cv/{id}/jobtitle : Ajouter nouveau titre au  CV / Ecraser l'ancien
