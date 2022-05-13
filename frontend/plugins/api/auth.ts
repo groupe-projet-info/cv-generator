@@ -37,7 +37,7 @@ function getUserFromCookies() {
 
 async function initTokenStorage($axios: NuxtAxiosInstance, store: Store<StoreState>) {
   const token = getUserFromCookies()
-  if (token != undefined) {
+  if (token != undefined && token != '') {
     store.commit('setToken', token)
     $axios.defaults.headers['X-Access-Token'] = token
     const user = await $axios.$get('/api/user')
