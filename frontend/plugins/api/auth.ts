@@ -51,7 +51,7 @@ function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): Auth
     async login(username: string, password: string) {
       let data: LoginData | null | undefined;
       try {
-        data = await $axios.$post('/api/auth/login', { userName: username, password })
+        data = await $axios.$post('/api/auth/login', { userName: username, password: password })
       } catch (_err) {
         return false
       }
@@ -79,7 +79,7 @@ function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): Auth
     },
     async register(username: string, password: string, confirmPassword: string) {
       try {
-        let data = await $axios.$post('/api/auth/register', { userName: username, password })
+        let data = await $axios.$post('/api/auth/register', { userName: username, password: password })
         return true
       } catch (_err) {
         return false
