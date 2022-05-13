@@ -144,14 +144,14 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                       <v-btn :ripple="false" :outlined="!educationFormDirty" color="green" @click="saveStateAndLeave">
+                       <v-btn :ripple="false" :outlined="!skillFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
-                      <v-btn type="submit" :ripple="false" :plain="!educationFormDirty" :outlined="!educationFormDirty"
+                      <v-btn type="submit" :ripple="false" :plain="!skillFormDirty" :outlined="!skillFormDirty"
                         color="blue">
                         Sauvegarder
                       </v-btn>
-                      <v-btn :ripple="false" :plain="educationFormDirty" color="red" @click="leavePage">
+                      <v-btn :ripple="false" :plain="skillFormDirty" color="red" @click="leavePage">
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -290,7 +290,7 @@
             </v-tab-item>
 
 
-            
+
             <!--certification-->
           </v-tabs>
         </v-card-text>
