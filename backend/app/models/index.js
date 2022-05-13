@@ -1,9 +1,10 @@
-const dbConfig = require("../config/db.config.js");
 const mongoose = require("mongoose");
+require('dotenv').config();
 mongoose.Promise = global.Promise;
+
 const db = {};
 db.mongoose = mongoose;
-db.url = dbConfig.url;
+db.url = process.env.DB_URL;
 
 db.certifications = require("./certification.model.js")(mongoose);
 db.cvs = require("./cv.model.js")(mongoose);

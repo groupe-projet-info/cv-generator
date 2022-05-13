@@ -1,102 +1,58 @@
 const db = require("../models");
 const User = db.users;
-
-// Create and Save a new User
-
-exports.create = (req, res) => {
-    // Validate request
-    if (!req.body.userName) {
-      res.status(400).send({ message: "Content can not be empty!" });
-      return;
-    }
-    // Create an User
-    const user = new User({
-      userName: req.body.userName,
-      password: req.body.password,
-      creationDate: Date.now().toISOString(),
-      lastActiveDate: creationDate
-    }); // TODO: `MongoDB a des champs createdAt et UpdatedAt automatiquement ajoutés... Look into that
-
-    // Save User in the database
-    user
-      .save(user)
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the User."
-        });
-      });
-  };
+var bcrypt = require("bcryptjs");
 
 
-// Retrieve all Users from the database.
-exports.findAll = (req, res) => {
-    User.find({})
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving users."
-        });
-      });
-  };
-  
+exports.find_user_data = (req, res) => {
+  const id=req.userId
 
-// Find a single User with an id
-exports.findOne = (req, res) => {
-  
-};
-// Update an User by the id in the request
-exports.update = (req, res) => {
-  
-};
-
-// Delete a User with the specified id in the request
-
-exports.delete = (req, res) => {
-    const id = req.params.id;
-    User.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-          res.status(404).send({
-            message: "Cannot delete User with id"+ id
-          });
-        } else {
-          res.send({
-            message: "User was deleted successfully!"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete User with id=" + id
-        });
-      });
-  };
-
-// Delete all Users from the database.
-exports.deleteAll = (req, res) => {
-  User.deleteMany({})
+  User.findById(req.userId)
     .then(data => {
-      res.send({
-        message: `${data.deletedCount} Users were deleted successfully!`
-      });
+      if (!data)
+        res.status(404).send({ message: "Not found User with id " + id });
+      else {
+        res.send(data);
+      }
     })
     .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all users."
-      });
+      res
+        .status(500)
+        .send({ message: "Error retrieving User with id=" + id });
     });
+
 };
 
 
+exports.update_password = (req, res) => {
+  const user_id = req.userId
+     
+  User.findById(user_id)
+  .then(user => {
+    if (!user)
+      res.status(404).send({ message: "Not found User with id " + user_id });
+    else {
+      //Check first password
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
+        });}
+      
+      user.password = bcrypt.hashSync(req.body.newPassword, 8)
+      user.save(user); 
+      res.send({ message: "User was updated successfully." });
+    }
+})
+  .catch(err => {
+    res
+      .status(500)
+      .send({ message: "Error retrieving User with id=" + cv_id });
+  });
 
 
-
+};
 

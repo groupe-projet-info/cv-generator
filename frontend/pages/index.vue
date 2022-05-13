@@ -6,16 +6,57 @@
           <v-container fluid>
             <h1 class="text-h4 font-weight-thin mb-4">CV Generator</h1>
             <h4 class="subheading mb-4">Construisez votre CV simplement !</h4>
-            <v-btn elevate="0" :ripple="false" to="/login" color="primary">Se connecter</v-btn>
-            <v-btn text :ripple="false" to="/register">S'inscrire</v-btn>
+            <v-btn elevate="0" :ripple="false" to="/login" color="primary" v-if="!loggedIn">Se connecter</v-btn>
+            <v-btn text :ripple="false" to="/register" v-if="!loggedIn">S'inscrire</v-btn>
+            <v-btn elevate="0" :ripple="false" to="/dashboard" color="primary" v-else>Accéder à mes CVs</v-btn>
           </v-container>
         </v-col>
       </v-row>
     </v-parallax>
-    <v-container>
-      <span>{Screenshot remplissage CV}</span>
+    <v-container fluid class="d-flex">
+      <v-sheet color="grey" rounded height="380" width="800">
+        <v-img src="edit.png"></v-img>
+      </v-sheet>
       <v-divider class="mx-4" vertical></v-divider>
-      <span>{Selling points}</span>
+      <v-card>
+        <v-container fill-height>
+          <v-list-item class="mt-4">
+            <v-list-item-icon>
+              <v-icon>fa-angle-right</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content two-line>
+              <v-list-item-title>Simple, clair</v-list-item-title>
+              <v-list-item-subtitle>Pas besoin d'être un expert pour avoir un bon CV !</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>fa-angle-right</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content two-line>
+              <v-list-item-title>Rapidité</v-list-item-title>
+              <v-list-item-subtitle>
+                En quelques clics, vous avez un fichier prêt à télécharger !
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>fa-angle-right</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content four-line>
+              <v-list-item-title>Original</v-list-item-title>
+              <v-list-item-subtitle>
+                Vous pouvez créer votre propre mise en page
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>pour que votre CV ne ressemble à aucun autre !</v-list-item-subtitle>
+              <v-list-item-subtitle>
+                <i>Bientôt</i>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-container>
+      </v-card>
       <div style="height: 200px" />
     </v-container>
     <v-parallax src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
@@ -26,9 +67,11 @@
         </v-col>
       </v-row>
     </v-parallax>
-    <v-container>
-      Caroussel de templates
-    </v-container>
+    <v-carousel cycle height="600" hide-delimiter-background show-arrows-on-hover>
+      <v-carousel-item>
+        <v-img src="template-default.png"></v-img>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
@@ -38,5 +81,28 @@ export default Vue.extend({
   head: {
     title: "Accueil",
   },
+  data() {
+    return {
+      loggedIn: false,
+      colors: [
+        'indigo',
+        'warning',
+        'pink darken-2',
+        'red lighten-1',
+        'deep-purple accent-4',
+      ],
+      slides: [
+        'First',
+        'Second',
+        'Third',
+        'Fourth',
+        'Fifth',
+      ],
+    }
+  },
+  async fetch() {
+    this.loggedIn = await this.$api.auth.test()
+  },
+  fetchOnServer: false
 });
 </script>
