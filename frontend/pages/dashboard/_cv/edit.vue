@@ -15,6 +15,8 @@
             <v-tab>Centres d'intérêt</v-tab>
             <v-tab>Langues maîtrisées</v-tab>
             <v-tab>Certifications</v-tab>
+
+
             <v-tab-item>
               <v-form ref="mainForm" v-model="mainFormValid" lazy-validation @submit.prevent="saveState">
                 <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
@@ -68,6 +70,8 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!-- education-->
             <v-tab-item>
               <v-form ref="educationForm" v-model="educationFormValid" lazy-validation @submit.prevent="saveState">
@@ -121,6 +125,9 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
+
             <!-- skills-->
             <v-tab-item>
               <v-form ref="skillForm" v-model="skillFormValid" lazy-validation @submit.prevent="saveState">
@@ -137,19 +144,22 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-btn :ripple="false" :outlined="!skillFormDirty" color="green" @click="saveStateAndLeave">
+                       <v-btn :ripple="false" :outlined="!educationFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
-                      <v-btn type="submit" :ripple="false" :plain="!skillFormDirty" :outlined="!skillFormDirty"
+                      <v-btn type="submit" :ripple="false" :plain="!educationFormDirty" :outlined="!educationFormDirty"
                         color="blue">
                         Sauvegarder
                       </v-btn>
-                      <v-btn :ripple="false" :plain="skillFormDirty" color="red" @click="leavePage">
+                      <v-btn :ripple="false" :plain="educationFormDirty" color="red" @click="leavePage">
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!-- jobs-->
             <v-tab-item>
               <v-form ref="jobForm" v-model="jobFormValid" lazy-validation @submit.prevent="saveState">
@@ -218,6 +228,8 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!--hobbies-->
             <v-tab-item>
               <v-form ref="hobbiesForm" v-model="hobbiesFormValid" lazy-validation @submit.prevent="saveState">
@@ -242,6 +254,8 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!--languages-->
             <v-tab-item>
               <v-form ref="languageForm" v-model="languageFormValid" lazy-validation @submit.prevent="saveState">
@@ -274,6 +288,9 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
+            
             <!--certification-->
           </v-tabs>
         </v-card-text>
