@@ -74,7 +74,7 @@
 
             <!-- education-->
             <v-tab-item>
-              <v-form ref="educationForm" v-model="educationFormValid" lazy-validation @submit.prevent="saveState">
+              <v-form ref="educationForm" v-model="educationFormValid" lazy-validation @submit.prevent="saveEducationState">
                 <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
                 <v-container v-for="edu in education" :key="edu.id">
                   <v-row >
@@ -131,7 +131,7 @@
 
             <!-- skills-->
             <v-tab-item>
-              <v-form ref="skillForm" v-model="skillFormValid" lazy-validation @submit.prevent="saveState">
+              <v-form ref="skillForm" v-model="skillFormValid" lazy-validation @submit.prevent="saveSkillState">
                 <v-container v-for="skill in skills" :key="skill.id">
                   <v-row>
                     <v-col>
@@ -164,7 +164,7 @@
 
             <!-- jobs-->
             <v-tab-item>
-              <v-form ref="jobForm" v-model="jobFormValid" lazy-validation @submit.prevent="saveState">
+              <v-form ref="jobForm" v-model="jobFormValid" lazy-validation @submit.prevent="saveJobState">
                 <v-container v-for="job in previousJobs" :key="job.id">
                   <v-row>
                     <v-col>
@@ -219,11 +219,11 @@
                       @input="jobFormDirty = true"></v-switch>
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="cv.education.endYear" :rules="educationRules" label="Année de fin" required
+                      <v-text-field v-model="job.endYear" :rules="educationRules" label="Année de fin" required
                         type="number" @input="jobFormDirty = true" />
                     </v-col>
                     <v-col>
-                      <v-switch v-model="cv.education.hasEnded" label="En cours" :rules="educationRules" required
+                      <v-switch v-model="job.hasEnded" label="En cours" :rules="educationRules" required
                         @input="jobFormDirty = true"></v-switch>
                     </v-col>
                   </v-row>
@@ -253,7 +253,7 @@
                 <v-container>
                   <v-row v-for="hobby in Hobbies" :key="hobby.id">
                     <v-col>
-                      <v-text-field v-model="hobby.hobbies" : label="Centres d'intérêt"
+                      <v-text-field v-model="hobby.hobbies" label="Centres d'intérêt"
                         required @input="hobbiesFormDirty = true" />
                       <v-btn :ripple="false" :outlined="!hobbiesFormDirty" color="green" @click="saveHobbiesStateAndLeave">
                         Sauvegarder et quitter
@@ -581,7 +581,7 @@ export default Vue.extend({
 
       fullNameRules: [
         (v: any) => !!v || 'Champ requis'
-
+        ],
       mainFormRules: [
         (v: any) => !!v || 'Champ requis',
       ],
