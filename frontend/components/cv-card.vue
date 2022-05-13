@@ -24,7 +24,7 @@
       <v-btn plain rounded icon :ripple="false" color="blue" :to="`/dashboard/${cv._id}/edit`">
         <v-icon>fa-pencil</v-icon>
       </v-btn>
-      <v-btn plain rounded icon :ripple="false" color="green">
+      <v-btn plain rounded icon :ripple="false" color="green" :to="`/dashboard/${cv._id}/export`">
         <v-icon>fa-solid fa-download</v-icon>
       </v-btn>
       <v-btn plain rounded icon :ripple="false" color="red">
