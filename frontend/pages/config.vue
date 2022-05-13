@@ -116,6 +116,10 @@ export default Vue.extend({
       this.loading = true
       this.success = await this.$api.user.changePassword(this.password, this.newPassword, this.newPasswordConfirmation)
       this.loading = false
+      if (this.success) {
+        await this.$api.auth.logout()
+        this.$router.push('/')
+      }
     }
   }
 })
