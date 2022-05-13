@@ -13,10 +13,48 @@
         </v-col>
       </v-row>
     </v-parallax>
-    <v-container>
-      <span>{Screenshot remplissage CV}</span>
+    <v-container fluid class="d-flex">
+      <v-sheet color="grey" rounded height="380" width="800"></v-sheet>
       <v-divider class="mx-4" vertical></v-divider>
-      <span>{Selling points}</span>
+      <v-card>
+        <v-container fill-height>
+          <v-list-item class="mt-4">
+            <v-list-item-icon>
+              <v-icon>fa-angle-right</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content two-line>
+              <v-list-item-title>Simple, clair</v-list-item-title>
+              <v-list-item-subtitle>Pas besoin d'être un expert pour avoir un bon CV !</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>fa-angle-right</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content two-line>
+              <v-list-item-title>Rapidité</v-list-item-title>
+              <v-list-item-subtitle>
+                En quelques clics, vous avez un fichier prêt à télécharger !
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>fa-angle-right</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content four-line>
+              <v-list-item-title>Original</v-list-item-title>
+              <v-list-item-subtitle>
+                Vous pouvez créer votre propre mise en page
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>pour que votre CV ne ressemble à aucun autre !</v-list-item-subtitle>
+              <v-list-item-subtitle>
+                <i>Bientôt</i>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-container>
+      </v-card>
       <div style="height: 200px" />
     </v-container>
     <v-parallax src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
@@ -27,9 +65,17 @@
         </v-col>
       </v-row>
     </v-parallax>
-    <v-container>
-      Caroussel de templates
-    </v-container>
+    <v-carousel cycle height="600" hide-delimiter-background show-arrows-on-hover>
+      <v-carousel-item v-for="(slide, i) in slides" :key="i">
+        <v-sheet :color="colors[i]" height="100%">
+          <v-row class="fill-height" align="center" justify="center">
+            <div class="text-h2">
+              {{ slide }} Slide
+            </div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
@@ -41,7 +87,21 @@ export default Vue.extend({
   },
   data() {
     return {
-      loggedIn: false
+      loggedIn: false,
+      colors: [
+        'indigo',
+        'warning',
+        'pink darken-2',
+        'red lighten-1',
+        'deep-purple accent-4',
+      ],
+      slides: [
+        'First',
+        'Second',
+        'Third',
+        'Fourth',
+        'Fifth',
+      ],
     }
   },
   async fetch() {

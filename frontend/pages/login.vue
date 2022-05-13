@@ -8,7 +8,7 @@
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" v-model="valid" lazy-validate @submit.prevent="login">
-              <v-text-field v-model="username" :rules="nameRules" required prepend-icon="fa-user" name="username"
+              <v-text-field v-model="userName" :rules="nameRules" required prepend-icon="fa-user" name="userName"
                 label="Identifiant" type="text" @input="$refs.form.resetValidation(); success = true" autofocus />
               <v-text-field v-model="password" :rules="passwordRules" required prepend-icon="fa-lock" name="password"
                 label="Mot de passe" type="password" @input="$refs.form.resetValidation(); success = true" />
@@ -35,7 +35,7 @@ export default Vue.extend({
     return {
       loading: false,
       valid: true,
-      username: '',
+      userName: '',
       password: '',
       checkbox: false,
       success: true
@@ -62,7 +62,7 @@ export default Vue.extend({
       // Shut up the ts compiler about potential undefined as VForm is unknown at compile-time
       if ((this.$refs.form as any).validate()) {
         this.loading = true
-        this.success = await this.$api.auth.login(this.username, this.password)
+        this.success = await this.$api.auth.login(this.userName, this.password)
         this.loading = false
         if (this.success) {
           this.$router.push('/')

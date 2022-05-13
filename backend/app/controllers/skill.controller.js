@@ -47,7 +47,11 @@ exports.find_all_skills = (req, res) => {
 
   CV.findOne({ _id: cv_id })
     .populate('skills').exec((err, cv) => {
-      if (err) return handleError(err);
+      if (err) {
+        res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+      }
       res.send(cv.skills)
       console.log(cv.skills.length+" skills retrieved successfully ");
     })

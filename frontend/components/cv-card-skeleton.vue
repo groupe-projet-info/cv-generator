@@ -4,6 +4,9 @@
     <!-- Edit/Export/Delete Actions -->
     <v-card-actions>
       <v-spacer />
+      <v-btn plain rounded icon :ripple="false" disabled>
+        <v-icon>fa-eye</v-icon>
+      </v-btn>
       <v-btn plain rounded icon :ripple="false" color="blue" disabled>
         <v-icon>fa-pencil</v-icon>
       </v-btn>
@@ -11,7 +14,7 @@
         <v-icon>fa-solid fa-download</v-icon>
       </v-btn>
       <v-btn plain rounded icon :ripple="false" color="red" disabled>
-        <v-icon>fa-xmark</v-icon>
+        <v-icon>fa-trash</v-icon>
       </v-btn>
     </v-card-actions>
   </v-card>

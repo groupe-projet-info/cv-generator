@@ -46,7 +46,11 @@ exports.find_all_languages = (req, res) => {
 
   CV.findOne({ _id: cv_id })
     .populate('languages').exec((err, cv) => {
-      if (err) return handleError(err);
+      if (err) {
+        res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+      }
       res.send(cv.languages)
       console.log(cv.languages.length+" languages retrieved successfully ");
     })

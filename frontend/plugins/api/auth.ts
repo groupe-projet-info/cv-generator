@@ -3,11 +3,11 @@ import { Store } from 'vuex'
 import { StoreState } from "~/store"
 
 export interface AuthAPI {
-  login(username: string, password: string): Promise<boolean>,
+  login(userName: string, password: string): Promise<boolean>,
   logout(): Promise<boolean>,
-  register(username: string, password: string, confirmPassword: string): Promise<boolean>,
+  register(userName: string, password: string, confirmPassword: string): Promise<boolean>,
   test(): Promise<boolean>,
-  canRegister(username: string): Promise<boolean>,
+  canRegister(userName: string): Promise<boolean>,
 }
 
 interface LoginData {
@@ -35,23 +35,25 @@ function getUserFromCookies() {
   return cookies.token ? cookies.token : ''
 }
 
-function initTokenStorage($axios: NuxtAxiosInstance, store: Store<StoreState>) {
+async function initTokenStorage($axios: NuxtAxiosInstance, store: Store<StoreState>) {
   const token = getUserFromCookies()
-  if (token != undefined) {
+  if (token != undefined && token != '') {
     store.commit('setToken', token)
     $axios.defaults.headers['X-Access-Token'] = token
-    // const user = await $axios.$get('/api/user')
-    // store.commit('setUser', user)
+    const user = await $axios.$get('/api/user')
+    store.commit('setUser', user)
   }
 }
 
-function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): AuthAPI {
-  initTokenStorage($axios, store)
+async function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): Promise<AuthAPI> {
+  await initTokenStorage($axios, store)
   return {
-    async login(username: string, password: string) {
+    async login(userName: string, password: string) {
       let data: LoginData | null | undefined;
       try {
-        data = await $axios.$post('/api/auth/login', { userName: username, password })
+
+        data = await $axios.$post('/api/auth/login', { userName: userName, password })
+
       } catch (_err) {
         return false
       }
@@ -65,9 +67,9 @@ function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): Auth
       document.cookie = `token=${token};expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/;SameSite=Strict`
       store.commit('setToken', token)
       $axios.defaults.headers['X-Access-Token'] = token
-      // const user = await $axios.$get('/api/user')
-      // store.commit('setUser', user)
-      store.commit('setUser', { username: 'TEST' })
+      const user = await $axios.$get('/api/user')
+      store.commit('setUser', user)
+      // store.commit('setUser', { userName: 'TEST' })
       return true
     },
     async logout() {
@@ -77,9 +79,11 @@ function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): Auth
       store.commit('setUser', {})
       return true
     },
-    async register(username: string, password: string, confirmPassword: string) {
+    async register(userName: string, password: string, confirmPassword: string) {
       try {
-        let data = await $axios.$post('/api/auth/register', { userName: username, password })
+
+        let data = await $axios.$post('/api/auth/register', { userName: userName, password })
+
         return true
       } catch (_err) {
         return false
@@ -94,7 +98,7 @@ function generateAuth($axios: NuxtAxiosInstance, store: Store<StoreState>): Auth
       }
       return true
     },
-    async canRegister(username: string) { return true }
+    async canRegister(userName: string) { return true }
   }
 }
 

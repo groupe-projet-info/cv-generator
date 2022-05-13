@@ -13,7 +13,7 @@
         <v-btn text :ripple="false" to="/register" v-if="!loggedIn">S'inscrire</v-btn>
         <v-menu top offset-y v-else>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn text :ripple="false" v-bind="attrs" v-on="on">{{ $store.state.user.username }}</v-btn>
+            <v-btn text :ripple="false" v-bind="attrs" v-on="on">{{ $store.state.user.userName }}</v-btn>
           </template>
           <v-list>
             <v-list-item to="/config">
