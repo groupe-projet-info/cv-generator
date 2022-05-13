@@ -12,7 +12,7 @@
             <v-tab>Éducation</v-tab>
             <v-tab>Compétences</v-tab>
             <v-tab>Expériences professionnelles</v-tab>
-            <v-tab>Hobbies</v-tab>
+            <v-tab>Centres d'intérêt</v-tab>
             <v-tab>Langues maîtrisées</v-tab>
             <v-tab>Certifications</v-tab>
             <v-tab-item>
@@ -68,7 +68,6 @@
                 </v-container>
               </v-form>
             </v-tab-item>
-
             <!-- education-->
             <v-tab-item>
               <v-form ref="educationForm" v-model="educationFormValid" lazy-validation @submit.prevent="saveState">
@@ -99,8 +98,8 @@
                       <v-switch  v-model="cv.education.hasEnded" label="En cours" :rules="educationRules" required
                       @input="educationFormDirty = true"></v-switch>
                     </v-col>
-                    </v-row>
-                    <v-row>
+                  </v-row>
+                  <v-row>
                     <v-col>
                       <v-text-field v-model="cv.education.comments" :rules="educationRules" label="Commentaires"
                         required @input="educationFormDirty = true" />
@@ -108,7 +107,7 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-btn :ripple="false" :outlined="!educationFormDirty" color="green" @click="saveStateAndLeave">
+                       <v-btn :ripple="false" :outlined="!educationFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
                       <v-btn type="submit" :ripple="false" :plain="!educationFormDirty" :outlined="!educationFormDirty"
@@ -116,14 +115,12 @@
                         Sauvegarder
                       </v-btn>
                       <v-btn :ripple="false" :plain="educationFormDirty" color="red" @click="leavePage">
-                        Quitter
                       </v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
               </v-form>
             </v-tab-item>
-
             <!-- skills-->
             <v-tab-item>
               <v-form ref="skillForm" v-model="skillFormValid" lazy-validation @submit.prevent="saveState">
@@ -148,15 +145,11 @@
                         Sauvegarder
                       </v-btn>
                       <v-btn :ripple="false" :plain="skillFormDirty" color="red" @click="leavePage">
-                        Quitter
-                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
               </v-form>
             </v-tab-item>
-
-
             <!-- jobs-->
             <v-tab-item>
               <v-form ref="jobForm" v-model="jobFormValid" lazy-validation @submit.prevent="saveState">
@@ -225,10 +218,63 @@
                 </v-container>
               </v-form>
             </v-tab-item>
-            
-
-
-
+            <!--hobbies-->
+            <v-tab-item>
+              <v-form ref="hobbiesForm" v-model="hobbiesFormValid" lazy-validation @submit.prevent="saveState">
+                <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
+                <v-container>
+                  <v-row v-for="hobby in Hobbies" :key="hobby.id">
+                    <v-col>
+                      <v-text-field v-model="hobby.hobbies" :rules="hobbiesRules" label="Centres d'intérêt"
+                        required @input="hobbiesFormDirty = true" />
+                      <v-btn :ripple="false" :outlined="!hobbiesFormDirty" color="green" @click="saveStateAndLeave">
+                        Sauvegarder et quitter
+                      </v-btn>
+                      <v-btn type="submit" :ripple="false" :plain="!hobbiesFormDirty" :outlined="!hobbiesFormDirty"
+                        color="blue">
+                        Sauvegarder
+                      </v-btn>
+                      <v-btn :ripple="false" :plain="hobbiesFormDirty" color="red" @click="leavePage">
+                        Quitter
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+            </v-tab-item>
+            <!--languages-->
+            <v-tab-item>
+              <v-form ref="languageForm" v-model="languageFormValid" lazy-validation @submit.prevent="saveState">
+                <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
+                <v-container>
+                  <v-row v-for="language in Languages" :key="language.id">
+                    <v-col>
+                      <v-text-field v-model="language.languageName" :rules="langRules" label="Langue"
+                        required @input="languageFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-text-field v-model="language.level" :rules="langRules" label="Niveau" required
+                        @input="languageFormDirty = true" />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-btn :ripple="false" :outlined="!languageFormDirty" color="green" @click="saveStateAndLeave">
+                        Sauvegarder et quitter
+                      </v-btn>
+                      <v-btn type="submit" :ripple="false" :plain="!languageFormDirty" :outlined="!languageFormDirty"
+                        color="blue">
+                        Sauvegarder
+                      </v-btn>
+                      <v-btn :ripple="false" :plain="languageFormDirty" color="red" @click="leavePage">
+                        Quitter
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+            </v-tab-item>
+            <!--certification-->
           </v-tabs>
         </v-card-text>
       </v-card>
@@ -404,16 +450,42 @@ export default Vue.extend({
       skillRules: [
         (v: any) => !!v || 'Champ requis',
       ],
-      jobRules: [
+      extracurricularCertifications: [{
+        authority:'',
+        certificationName: '',
+        certificationPassYear: '',
+        id:''
+      }],
+
+      Languages: [{
+        languageName:'',
+        level: '',
+        id:''
+      }],
+
+      Hobbies: [{
+        hobbies: '',
+        id: ''
+      }],
+
+      jobTitleRules: [
         (v: any) => !!v || 'Champ requis',
       ],
       emailRules: [
         (v: any) => !!v || 'Champ requis',
         (v: any) => /.+@.+\..+/.test(v) || 'Adresse mail invalide',
       ],
-
-
-      
+      certifRules: [
+        (v: any) => !!v || 'Champ requis',
+        (v: any) => !!v || 'Champ requis',
+      ],
+      yearRule: [
+        (v: any) => typeof v==="number" || "Année invalide",
+      ], 
+      langRules: [
+        (v: any) => !!v || 'Champ requis',
+        (v: any) => !!v || 'Champ requis',
+      ],
       // Old data
       date: new Date().toISOString().substr(0, 7),
       menu: false,
