@@ -5,7 +5,7 @@ import { default as auth, AuthAPI } from './auth'
 import { default as cv, CVAPI } from './cv'
 import { default as user, UserAPI } from './user'
 import { default as template, TemplateAPI } from './template'
-import { default as certification, CertificationAPI  } from './certification'
+import { default as certification, CertificationAPI } from './certification'
 import { default as education, EducationAPI } from './education'
 import { default as job, JobAPI } from './job'
 import { default as language, LanguageAPI } from './language'
@@ -53,9 +53,9 @@ declare module 'vuex/types/index' {
   }
 }
 
-function generateAPI($axios: NuxtAxiosInstance, store: Store<any>): API {
+async function generateAPI($axios: NuxtAxiosInstance, store: Store<any>): Promise<API> {
   return {
-    auth: auth($axios, store),
+    auth: await auth($axios, store),
     cv: cv($axios, store),
     user: user($axios, store),
     template: template($axios, store),
@@ -67,8 +67,8 @@ function generateAPI($axios: NuxtAxiosInstance, store: Store<any>): API {
   }
 }
 
-const apiPlugin: Plugin = ({ $axios, store }, inject) => {
-  inject('api', generateAPI($axios, store))
+const apiPlugin: Plugin = async ({ $axios, store }, inject) => {
+  inject('api', await generateAPI($axios, store))
 }
 
 export default apiPlugin

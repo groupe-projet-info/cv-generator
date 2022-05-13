@@ -105,7 +105,7 @@ export default Vue.extend({
   methods: {
     async submitStep1() {
       this.loading = true
-      this.success = await this.$api.auth.login(this.$store.state.user.username, this.password)
+      this.success = await this.$api.auth.login(this.$store.state.user.userName, this.password)
       if (this.success) {
         this.success = false
         this.step = 2
