@@ -51,7 +51,11 @@ exports.find_all_educations = (req, res) => {
 
   CV.findOne({ _id: cv_id })
     .populate('education').exec((err, cv) => {
-      if (err) return handleError(err);
+      if (err) {
+        res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+      }
       res.send(cv.education)
       console.log(cv.education.length+" educations retrieved successfully ");
     })

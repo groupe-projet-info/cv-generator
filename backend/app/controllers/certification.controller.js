@@ -47,7 +47,11 @@ exports.find_all_certifications = (req, res) => {
 
   CV.findOne({ _id: cv_id })
     .populate('extracurricularCertifications').exec((err, cv) => {
-      if (err) return handleError(err);
+      if (err) {
+        res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+      }
       res.send(cv.extracurricularCertifications)
       console.log(cv.extracurricularCertifications.length+" certifications retrieved successfully ");
     })

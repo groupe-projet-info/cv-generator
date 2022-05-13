@@ -54,7 +54,11 @@ exports.find_all_jobs = (req, res) => {
 
   CV.findOne({ _id: cv_id })
     .populate('previousJobs').exec((err, cv) => {
-      if (err) return handleError(err);
+      if (err) {
+        res
+      .status(500)
+      .send({ message: "Error retrieving CV with id=" + cv_id });
+      }
       res.send(cv.previousJobs)
       console.log(cv.previousJobs.length+" jobs retrieved successfully ");
     })
