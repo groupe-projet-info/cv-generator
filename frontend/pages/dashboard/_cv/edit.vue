@@ -15,6 +15,8 @@
             <v-tab>Centres d'intérêt</v-tab>
             <v-tab>Langues maîtrisées</v-tab>
             <v-tab>Certifications</v-tab>
+
+
             <v-tab-item>
               <v-form ref="mainForm" v-model="mainFormValid" lazy-validation @submit.prevent="saveState">
                 <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
@@ -68,6 +70,8 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!-- education-->
             <v-tab-item>
               <v-form ref="educationForm" v-model="educationFormValid" lazy-validation @submit.prevent="saveState">
@@ -121,6 +125,9 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
+
             <!-- skills-->
             <v-tab-item>
               <v-form ref="skillForm" v-model="skillFormValid" lazy-validation @submit.prevent="saveState">
@@ -137,7 +144,7 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-btn :ripple="false" :outlined="!skillsFormDirty" color="green" @click="saveStateAndLeave">
+                       <v-btn :ripple="false" :outlined="!skillFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
                       <v-btn type="submit" :ripple="false" :plain="!skillsFormDirty" :outlined="!hskillsFormDirty"
@@ -152,6 +159,8 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!-- jobs-->
             <v-tab-item>
               <v-form ref="jobForm" v-model="jobFormValid" lazy-validation @submit.prevent="saveState">
@@ -220,6 +229,8 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!--hobbies-->
             <v-tab-item>
               <v-form ref="hobbiesForm" v-model="hobbiesFormValid" lazy-validation @submit.prevent="saveState">
@@ -244,6 +255,8 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
             <!--languages-->
             <v-tab-item>
               <v-form ref="languageForm" v-model="languageFormValid" lazy-validation @submit.prevent="saveState">
@@ -276,6 +289,9 @@
                 </v-container>
               </v-form>
             </v-tab-item>
+
+
+
             <!--certification-->
             <v-tab-item>
               <v-form ref="CertificationForm" v-model="CertificationFormValid" lazy-validation @submit.prevent="saveState">
@@ -478,6 +494,19 @@ export default Vue.extend({
         extracurricularCertifications: [],
         id: ''
       },
+      mainFormRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
+      educationRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
+      skillRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
+      jobRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
+
       extracurricularCertifications: [{
         authority:'',
         certificationName: '',
