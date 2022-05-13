@@ -308,7 +308,7 @@
                         @input="CertificationFormDirty = true" />
                     </v-col>
                     <v-col>
-                      <v-text-field v-model="certification.certificationPassYear" :rules="certifRules" label="Date d'obtention" required type="number"
+                      <v-text-field v-model="certification.certificationPassYear" :rules="certifRules" label="Année d'obtention" required type="number"
                         @input="CertificationFormDirty = true" />
                     </v-col>
                   </v-row>
