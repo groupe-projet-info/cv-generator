@@ -182,7 +182,7 @@
                       <v-text-field v-model="job.jobDescription" :rules="jobRules" label="Longue description"
                         required @input="jobFormDirty = true" />
                     </v-col>
-                    <v-col>job
+                    <v-col>
                       <v-text-field v-model="job.jobShortDescription" :rules="jobRules" label="Courte description"
                         required @input="jobFormDirty = true" />
                     </v-col>
