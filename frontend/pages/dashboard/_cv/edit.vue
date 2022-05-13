@@ -137,14 +137,16 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-btn :ripple="false" :outlined="!skillFormDirty" color="green" @click="saveStateAndLeave">
+                      <v-btn :ripple="false" :outlined="!skillsFormDirty" color="green" @click="saveStateAndLeave">
                         Sauvegarder et quitter
                       </v-btn>
-                      <v-btn type="submit" :ripple="false" :plain="!skillFormDirty" :outlined="!skillFormDirty"
+                      <v-btn type="submit" :ripple="false" :plain="!skillsFormDirty" :outlined="!hskillsFormDirty"
                         color="blue">
                         Sauvegarder
                       </v-btn>
-                      <v-btn :ripple="false" :plain="skillFormDirty" color="red" @click="leavePage">
+                      <v-btn :ripple="false" :plain="skillsFormDirty" color="red" @click="leavePage">
+                        Quitter
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -275,6 +277,41 @@
               </v-form>
             </v-tab-item>
             <!--certification-->
+            <v-tab-item>
+              <v-form ref="CertificationForm" v-model="CertificationFormValid" lazy-validation @submit.prevent="saveState">
+                <!-- /education /skills /previousJobs /hobbies /languages /extracurricularCertifications-->
+                <v-container>
+                  <v-row v-for="certification in extracurricularCertifications" :key="certification.id">
+                    <v-col>
+                      <v-text-field v-model="certification.authority" :rules="certifRules" label="Autorité de certification"
+                        required @input="CertificationFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-text-field v-model="certification.certificationName" :rules="certifRules" label="Nom de la certification" required
+                        @input="CertificationFormDirty = true" />
+                    </v-col>
+                    <v-col>
+                      <v-text-field v-model="certification.certificationPassYear" :rules="certifRules" label="Date d'obtention" required
+                        @input="CertificationFormDirty = true" />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-btn :ripple="false" :outlined="!CertificationFormDirty" color="green" @click="saveStateAndLeave">
+                        Sauvegarder et quitter
+                      </v-btn>
+                      <v-btn type="submit" :ripple="false" :plain="!CertificationFormDirty" :outlined="!CertificationFormDirty"
+                        color="blue">
+                        Sauvegarder
+                      </v-btn>
+                      <v-btn :ripple="false" :plain="CertificationFormDirty" color="red" @click="leavePage">
+                        Quitter
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+            </v-tab-item>
           </v-tabs>
         </v-card-text>
       </v-card>
@@ -441,15 +478,6 @@ export default Vue.extend({
         extracurricularCertifications: [],
         id: ''
       },
-      mainFormRules: [
-        (v: any) => !!v || 'Champ requis',
-      ],
-      educationRules: [
-        (v: any) => !!v || 'Champ requis',
-      ],
-      skillRules: [
-        (v: any) => !!v || 'Champ requis',
-      ],
       extracurricularCertifications: [{
         authority:'',
         certificationName: '',
@@ -467,6 +495,17 @@ export default Vue.extend({
         hobbies: '',
         id: ''
       }],
+
+      mainFormRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
+      educationRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
+      skillRules: [
+        (v: any) => !!v || 'Champ requis',
+      ],
+      
 
       jobTitleRules: [
         (v: any) => !!v || 'Champ requis',
