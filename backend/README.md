@@ -1,30 +1,28 @@
-These commands need to be run from inside of the "backend" folder.
-
-
 # Pre requisites 
 
-Before running the project, create a .env file in the backend folder and add inside the following line for configurating the database :
+Before running the project, create a .env file in the backend folder and add inside the following lines :
 
 ```
-ORIGIN_CORS_OPTIONS="http://localhost:3000"
+ORIGIN_CORS_OPTIONS=http://localhost:3000
+
 DB_URL="mongodb://localhost:27017/info_db"
-```
 
-In order to enable authentication, we need to add a secret key, and add xthe time (in hours) that the tokens will be valid. 
-Write those informations in the file with these lines:
+JWT_SECRET="my_secret_key"
 
-```
-JWT_SECRET="put_your_key_here"
 TOKEN_VALIDITY_TIME= 2
 ```
-Feel free to modify them to change the settings.
 
-# To get the project setup:
+You can change them in order to fit your project's settings. The TOKEN_VALIDITY_TIME is the amount of time (in hours) that the tokens (given during authentication) will be valid.
+
+
+# To install the project setup:
 ```
 npm install
 ```
 
-# To run the server, execute the following line:
+# To run the server
+
+Execute the following line (from inside the backend folder):
 ```
 node server.js
 ```
@@ -33,7 +31,7 @@ node server.js
 
 ## Authentification 
 
-1- Registration.
+1- Registration.  
 ![alt text](./img/req_register.png)
 ![alt text](./img/res_register.png)
 
