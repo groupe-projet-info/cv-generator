@@ -96,7 +96,7 @@ It is assumed here that the user is already logged in and provides tokens with e
 
 ### 2- Adding one element to that CV (Education)
 
-![alt text](./img/adding edu.png)
+![alt text](./img/adding_edu.png)
 
 ### 3- Deleting the CV 
 

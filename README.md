@@ -12,7 +12,7 @@ https://nodejs.org/en/
 ## Install and Run
 
 The needed packages need to be installed from inside each module.  
-Please un the back-end server first, then the front-end client.
+Please run the back-end server first, then the front-end client.
 
 ### Back-end server
 
