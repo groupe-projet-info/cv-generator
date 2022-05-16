@@ -87,3 +87,17 @@ GET + ./api/user : Get user information
 ```
 
 ## API Calls (examples)
+
+It is assumed here that the user is already logged in and provides tokens with each request.
+
+### 1- Creating a CV 
+
+![alt text](./img/create_cv.png)
+
+### 2- Adding one element to that CV (Education)
+
+![alt text](./img/adding edu.png)
+
+### 3- Deleting the CV 
+
+![alt text](./img/delete_cv.png)
